@@ -88,15 +88,17 @@
 				{% load static %}
 				{% for i in shop_detail %}
 				<div class="col-12 col-md-4 col-lg-3 mb-5">
-					<a class="product-item" href="{% url 'add_to_cart' i.id %}">
-						<img src="{% static 'images/' %}{{ i.image }}" class="img-fluid product-thumbnail">
-						<h3 class="product-title">{{ i.name }}</h3>
-						<strong class="product-price">${{ i.price }}</strong>
-
-						<span class="icon-cross">
-							<img src="{% static 'images/cross.svg' %}" class="img-fluid">
-						</span>
-					</a>
+					<form action="" method="post">
+						<a class="product-item" href="{% url 'cart_view' %}">
+							<img src="{% static 'images/' %}{{ i.image }}" class="img-fluid product-thumbnail">
+							<h3 class="product-title">{{ i.name }}</h3>
+							<strong class="product-price">${{ i.price }}</strong>
+	
+							<span class="icon-cross">
+								<img src="{% static 'images/cross.svg' %}" class="img-fluid">
+							</span>
+						</a>
+					</form>
 				</div>
 				{% endfor %}
 

@@ -45,7 +45,7 @@ class register(models.Model):
 
 class addCart(models.Model):
     image = models.ImageField()
-    product = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     price = models.IntegerField()
     quantity = models.IntegerField()
     total = models.IntegerField()
