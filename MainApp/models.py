@@ -42,3 +42,10 @@ class register(models.Model):
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=10)
     cpassword = models.CharField(max_length=10)
+
+class addCart(models.Model):
+    image = models.ImageField()
+    product = models.CharField(max_length=50)
+    price = models.IntegerField()
+    quantity = models.IntegerField()
+    total = models.IntegerField()

@@ -507,6 +507,13 @@ a {
 .before-footer-section {
   padding: 7rem 0 12rem 0 !important; }
 
+.continue{
+  color: white;
+  text-decoration: none;
+}
+.continue:hover{
+  color: white;
+}
 .blog-section {
   padding: 7rem 0 12rem 0; }
   .blog-section .post-entry a {

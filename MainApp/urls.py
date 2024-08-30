@@ -1,8 +1,8 @@
 """
-URL configuration for Furni_Project project.
+URL configuration for Git_project project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='home'),
     path('shop/',views.shopPage,name='shop'),
-    path('about/',views.aboutus,name='aboutus'),
+    path('about/',views.aboutus,name='aboutus'), 
     path('services/',views.Ourservice,name='services'),
     path('blog/',views.Blog,name='Ourblog'),
     path('contact/',views.contact,name='contactUs'),
