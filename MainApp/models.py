@@ -49,3 +49,4 @@ class addCart(models.Model):
     price = models.IntegerField()
     quantity = models.IntegerField()
     total = models.IntegerField()
+

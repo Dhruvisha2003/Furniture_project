@@ -8,6 +8,7 @@ from .models import blogs
 from .models import About
 from .models import blog_list
 from .models import register
+from .models import addCart
 
 # Create your views here.
 
@@ -37,9 +38,45 @@ def Ourservice(request):
 def contact(request):
     return render(request,'contact.html')
 
-def addcart(request):
-    shop_detail = shop.objects.all()
-    return render(request,'cart.html')
+def cart_view(request):
+    cart_items = addCart.objects.filter(user=request.user)
+    
+    # Calculate total price of items in the cart
+    total_price = sum(item.quantity * item.product.price for item in cart_items)
+    
+    return render(request, 'cart.html', {
+        'cart_items': cart_items,
+        'total_price': total_price
+    })
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(shop, id=product_id)
+    quantity = request.POST.get('quantity', 1)  # Default to 1 if no quantity provided
+
+    cart_item, created = addCart.objects.get_or_create(
+        user=request.user,
+        product=product,
+        defaults={'quantity': quantity}
+    )
+    if not created:
+        cart_item.quantity += int(quantity)
+        cart_item.save()
+
+    return redirect('cart_view')
+
+def update_cart(request, cart_item_id):
+    cart_item = get_object_or_404(addCart, id=cart_item_id, user=request.user)
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+        cart_item.quantity = quantity
+        cart_item.save()
+    return redirect('cart_view')
+
+def remove_from_cart(request, cart_item_id):
+    cart_item = get_object_or_404(addCart, id=cart_item_id, user=request.user)
+    cart_item.delete()
+    return redirect('cart_view')
+
 
 def signin(request):
     if request.method == 'POST':
