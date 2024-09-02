@@ -38,21 +38,25 @@ def Ourservice(request):
 def contact(request):
     return render(request,'contact.html')
 
-def cart_view(request,id):
-    # if request.method == 'POST':
-    #     image = request.POST['image']
-    #     name = request.POST['name']
-    #     price = request.POST['price']
-    #     quantity = int(request.POST.get('quantity', 1))
-    #     total = price * quantity
+def cart_view(request):
+    myid=request.GET.get('cartid')
+    print(myid)
+    filter=shop.objects.filter(id=myid).first()
+    image = filter.image
+    name = filter.name
+    price = filter.price
+    quantity = 1
+    total = price * quantity
+    product = addCart(image=image,name=name,price=price,quantity=quantity,total=total)
+    product.save()
+    cart_items = addCart.objects.all()
+    return render(request,'cart.html',{'cart_items':cart_items})
 
-    #     user = shop(image=image,name=name,price=price,quantity=quantity,total=total)
-    #     user.save()
-
-    shop_detail = shop.objects.get(id=id)
-        # data = addCart.objects.all()
-        # return render(request,'cart.html',{'data':data})
-    return render(request,'cart.html')
+def delcart(request):
+    data = request.GET.get('cartid')
+    filter_data = addCart.objects.filter(id=data).first()
+    filter_data.delete()
+    return redirect('Cart')
 
 def signin(request):
     if request.method == 'POST':
