@@ -159,6 +159,13 @@ a {
         .hero .hero-img-wrap:after {
           top: -40px; } }
 
+.quantity-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto; /* Center horizontally */
+}
+
 .btn {
   font-weight: 600;
   padding: 12px 30px;

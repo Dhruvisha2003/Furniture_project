@@ -108,47 +108,26 @@
 									</td>
 									<td>${{i.price}}</td>
 									<td>
-										<div class="input-group mb-3 d-flex align-items-center justify-content-center quantity-container"
-											style="max-width: 120px; margin: 0 auto;">
-											<div class="input-group-prepend">
-												<button class="btn btn-outline-black decrease" type="submit" name="action">&minus;</button>
+										<form action="{% url 'update_cart' %}" method="POST">
+											{% csrf_token %}
+											<input type="hidden" name="cartid" value="{{ i.id }}">
+											<div class="input-group mb-3 d-flex align-items-center justify-content-center quantity-container"
+												style="max-width: 120px; margin: 0 auto;">
+												<div class="input-group-prepend">
+													<button class="btn btn-outline-black decrease" type="submit" name="action" value="decrease">&minus;</button>
+												</div>
+												<input type="text" class="form-control text-center quantity-amount" value="{{ i.quantity }}" name="quantity" aria-label="Quantity">
+												<div class="input-group-append">
+													<button class="btn btn-outline-black increase" type="submit" name="action" value="increase">&plus;</button>
+												</div>
 											</div>
-											<input type="text" class="form-control text-center quantity-amount"
-												value="{{i.quantity}}" name="quantity" placeholder="" aria-label="Example text with button addon"
-												aria-describedby="button-addon1">
-											<div class="input-group-append">
-												<button class="btn btn-outline-black increase" type="submit" name="action">&plus;</button>
-											</div>
-										</div>
+										</form>
 									</td>
 									<td class="total-price" name="total">${{i.total}}</td>
 									<td><a href="/Cart?cartid={{i.id}}" class="btn btn-black btn-sm">X</a></td>
 								</tr>
 								{% endfor %}
 
-								<!-- <tr>
-                          <td class="product-thumbnail">
-                            <img src="../static/images/product-2.png" alt="Image" class="img-fluid">
-                          </td>
-                          <td class="product-name">
-                            <h2 class="h5 text-black">Product 2</h2>
-                          </td>
-                          <td>$49.00</td>
-                          <td>
-                            <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
-                              <div class="input-group-prepend">
-                                <button class="btn btn-outline-black decrease" type="button">&minus;</button>
-                              </div>
-                              <input type="text" class="form-control text-center quantity-amount" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                              <div class="input-group-append">
-                                <button class="btn btn-outline-black increase" type="button">&plus;</button>
-                              </div>
-                            </div>
-        
-                          </td>
-                          <td>$49.00</td>
-                          <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                        </tr> -->
 							</tbody>
 						</table>
 					</div>
@@ -191,7 +170,7 @@
 									<span class="text-black">Subtotal</span>
 								</div>
 								<div class="col-md-6 text-right">
-									<strong class="text-black">$230.00</strong>
+									<strong class="text-black">${{subtotal}}</strong>
 								</div>
 							</div>
 							<div class="row mb-5">
@@ -199,7 +178,7 @@
 									<span class="text-black">Total</span>
 								</div>
 								<div class="col-md-6 text-right">
-									<strong class="text-black">$230.00</strong>
+									<strong class="text-black">${{total}}</strong>
 								</div>
 							</div>
 
