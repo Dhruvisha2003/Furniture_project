@@ -108,24 +108,21 @@
 									</td>
 									<td>${{i.price}}</td>
 									<td>
-										<div class="input-group mb-3 d-flex align-items-center quantity-container"
-											style="max-width: 120px;">
+										<div class="input-group mb-3 d-flex align-items-center justify-content-center quantity-container"
+											style="max-width: 120px; margin: 0 auto;">
 											<div class="input-group-prepend">
-												<button class="btn btn-outline-black decrease"
-													type="button">&minus;</button>
+												<button class="btn btn-outline-black decrease" type="submit" name="action">&minus;</button>
 											</div>
 											<input type="text" class="form-control text-center quantity-amount"
-												value="{{i.quantity}}" placeholder="" aria-label="Example text with button addon"
+												value="{{i.quantity}}" name="quantity" placeholder="" aria-label="Example text with button addon"
 												aria-describedby="button-addon1">
 											<div class="input-group-append">
-												<button class="btn btn-outline-black increase"
-													type="button">&plus;</button>
+												<button class="btn btn-outline-black increase" type="submit" name="action">&plus;</button>
 											</div>
 										</div>
-
 									</td>
-									<td class="total-price">${{i.total}}</td>
-									<td><a href="/Carrt?cartid={{i.id}}" class="btn btn-black btn-sm">X</a></td>
+									<td class="total-price" name="total">${{i.total}}</td>
+									<td><a href="/Cart?cartid={{i.id}}" class="btn btn-black btn-sm">X</a></td>
 								</tr>
 								{% endfor %}
 

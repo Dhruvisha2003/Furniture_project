@@ -39,24 +39,31 @@ def contact(request):
     return render(request,'contact.html')
 
 def cart_view(request):
-    myid=request.GET.get('cartid')
-    print(myid)
-    filter=shop.objects.filter(id=myid).first()
-    image = filter.image
-    name = filter.name
-    price = filter.price
-    quantity = 1
-    total = price * quantity
-    product = addCart(image=image,name=name,price=price,quantity=quantity,total=total)
-    product.save()
+    myid = request.GET.get('cartid')
+    if myid:
+        product = shop.objects.filter(id=myid).first()
+        if product:
+            image = product.image
+            name = product.name
+            price = product.price
+            quantity = 1 
+            total = price * quantity
+            cart_item = addCart(image=image, name=name, price=price, quantity=quantity, total=total)
+            cart_item.save()
+
     cart_items = addCart.objects.all()
-    return render(request,'cart.html',{'cart_items':cart_items})
+    return render(request, 'cart.html', {'cart_items': cart_items})
 
 def delcart(request):
-    data = request.GET.get('cartid')
-    filter_data = addCart.objects.filter(id=data).first()
-    filter_data.delete()
-    return redirect('Cart')
+    cartid = request.GET.get('cartid')
+    if cartid:
+        cart_item = addCart.objects.filter(id=cartid).first()
+        if cart_item:
+            cart_item.delete()
+    return redirect('cart_view')
+
+# def update_quantity(request):
+
 
 def signin(request):
     if request.method == 'POST':
