@@ -27,8 +27,10 @@ urlpatterns = [
     path('blog/',views.Blog,name='Ourblog'),
     path('contact/',views.contact,name='contactUs'),
     path('CartPage/', views.cart_view, name='cart_view'),
-    path('Cart/', views.delcart, name='delete'),
+    path('delete_cart/', views.delcart, name='delete'),
     path('update_cart/', views.update_cart_quantity, name='update_cart'),
     path('Register/',views.signin,name='register'),
     path('Login/',views.signup,name='login'),
+    # path('main/',views.main,name='main'),
+    path('Checkout/',views.checkOut,name='checkout'),
 ]

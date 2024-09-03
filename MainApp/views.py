@@ -50,11 +50,11 @@ def cart_view(request):
             total = price * quantity
             cart_item = addCart(image=image, name=name, price=price, quantity=quantity, total=total)
             cart_item.save()
-
     cart_items = addCart.objects.all()
-    subtotal = sum(item.total for item in cart_items)
+    subtotal = sum(i.total for i in cart_items)
     total = subtotal
-    return render(request, 'cart.html', {'cart_items': cart_items,'subtotal':subtotal,'total':total})
+    # print(all)
+    return render(request,'cart.html',{"cart_items":cart_items,'subtotal':subtotal,'total':total})
 
 def delcart(request):
     cartid = request.GET.get('cartid')
@@ -68,7 +68,6 @@ def update_cart_quantity(request):
     cartid = request.POST.get('cartid')
     action = request.POST.get('action')
     cart_item = addCart.objects.filter(id=cartid).first()
-
     if cart_item:
         if action == "increase":
             cart_item.quantity += 1
@@ -77,8 +76,15 @@ def update_cart_quantity(request):
         
         cart_item.total = cart_item.price * cart_item.quantity
         cart_item.save()
-
+    all=addCart.objects.all()
+    print(all)
     return redirect('cart_view')
+
+def checkOut(request):
+    data = addCart.objects.all()
+    subtotal = sum(i.total for i in data)
+    total = subtotal
+    return render(request,'checkout.html',{'data':data,'subtotal':subtotal,'total':total})
 
 def signin(request):
     if request.method == 'POST':

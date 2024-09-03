@@ -64,11 +64,10 @@
 	        quantityAmount.value = value;
 	    }
 	    
-
 	    init();
 		
 	};
 	sitePlusMinus();
- 
 
-});
+
+})()

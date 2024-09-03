@@ -95,6 +95,14 @@ a {
       .custom-navbar .custom-navbar-cta li:first-child {
         margin-right: 20px; }
 
+.check{
+  color: white;
+  text-decoration: none;
+}
+.check:hover{
+  color: white;
+}
+
 .hero {
   background: #3b5d50;
   padding: calc(4rem - 30px) 0 0rem 0; }
@@ -426,7 +434,9 @@ a {
 
 .testimonial-section {
   padding: 3rem 0 7rem 0; }
-
+  .testimonial-slider {
+    overflow: hidden;
+  }
 .testimonial-slider-wrap {
   position: relative; }
   .testimonial-slider-wrap .tns-inner {
