@@ -50,3 +50,13 @@ class addCart(models.Model):
     quantity = models.IntegerField()
     total = models.IntegerField()
 
+class Address(models.Model):
+    country = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    address = models.CharField(max_length=300)
+    street = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    zip = models.CharField(max_length=6)
+    email = models.CharField(max_length=50)
+    phone = models.CharField(max_length=10)

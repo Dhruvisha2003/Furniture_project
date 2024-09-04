@@ -9,6 +9,7 @@ from .models import About
 from .models import blog_list
 from .models import register
 from .models import addCart
+from .models import Address
 
 # Create your views here.
 
@@ -84,7 +85,25 @@ def checkOut(request):
     data = addCart.objects.all()
     subtotal = sum(i.total for i in data)
     total = subtotal
+    
+    if request.method == 'POST':
+        country = request.POST.get('country')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        address = request.POST.get('address')
+        street = request.POST.get('street')
+        state = request.POST.get('state')
+        zip = request.POST.get('zip')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+
+        data = Address(country=country,first_name=first_name,last_name=last_name,address=address,street=street,state=state,zip=zip,email=email,phone=phone)
+        data.save()
+
     return render(request,'checkout.html',{'data':data,'subtotal':subtotal,'total':total})
+
+def payment(request):
+    return render(request,'Payment.html')
 
 def signin(request):
     if request.method == 'POST':
@@ -97,7 +116,6 @@ def signin(request):
         user.save()
         return redirect('login')
     return render(request,'signin.html')
-
 
 def signup(request):
     if request.method == 'POST':

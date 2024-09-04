@@ -129,6 +129,9 @@ a {
     color: rgba(255, 255, 255, 0.5);
     margin-bottom: 30px; 
   }
+  .pay{
+    text-decoration: none;
+  }
   .hero .hero-img-wrap {
     position: relative; }
     .hero .hero-img-wrap img {

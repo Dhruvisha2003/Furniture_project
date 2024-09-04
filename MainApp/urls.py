@@ -31,6 +31,6 @@ urlpatterns = [
     path('update_cart/', views.update_cart_quantity, name='update_cart'),
     path('Register/',views.signin,name='register'),
     path('Login/',views.signup,name='login'),
-    # path('main/',views.main,name='main'),
+    path('pay/',views.payment,name='pay'),
     path('Checkout/',views.checkOut,name='checkout'),
 ]
