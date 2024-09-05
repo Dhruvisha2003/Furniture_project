@@ -50,7 +50,7 @@ class addCart(models.Model):
     quantity = models.IntegerField()
     total = models.IntegerField()
 
-class Address(models.Model):
+class data(models.Model):
     country = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -60,3 +60,8 @@ class Address(models.Model):
     zip = models.CharField(max_length=6)
     email = models.CharField(max_length=50)
     phone = models.CharField(max_length=10)
+
+class order(models.Model):
+    name = models.CharField(max_length=200)
+    quantity = models.IntegerField()
+    total = models.IntegerField()

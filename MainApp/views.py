@@ -9,7 +9,8 @@ from .models import About
 from .models import blog_list
 from .models import register
 from .models import addCart
-from .models import Address
+from .models import data
+from .models import order
 
 # Create your views here.
 
@@ -54,7 +55,7 @@ def cart_view(request):
     cart_items = addCart.objects.all()
     subtotal = sum(i.total for i in cart_items)
     total = subtotal
-    # print(all)
+ 
     return render(request,'cart.html',{"cart_items":cart_items,'subtotal':subtotal,'total':total})
 
 def delcart(request):
@@ -82,10 +83,6 @@ def update_cart_quantity(request):
     return redirect('cart_view')
 
 def checkOut(request):
-    data = addCart.objects.all()
-    subtotal = sum(i.total for i in data)
-    total = subtotal
-    
     if request.method == 'POST':
         country = request.POST.get('country')
         first_name = request.POST.get('first_name')
@@ -97,13 +94,32 @@ def checkOut(request):
         email = request.POST.get('email')
         phone = request.POST.get('phone')
 
-        data = Address(country=country,first_name=first_name,last_name=last_name,address=address,street=street,state=state,zip=zip,email=email,phone=phone)
-        data.save()
+        detail = data(country=country,first_name=first_name,last_name=last_name,address=address,street=street,state=state,zip=zip,email=email,phone=phone)
+        detail.save()
+        return redirect('pay')
+    return render(request,'checkout.html')
 
-    return render(request,'checkout.html',{'data':data,'subtotal':subtotal,'total':total})
+def order_view(request):
+        cart_items = addCart.objects.all()
+        subtotal = sum(item.total for item in cart_items)
+        total = subtotal
+        
+        for item in cart_items:
+            new_order = order(
+                name=item.name,
+                quantity=item.quantity,
+                total=item.total
+            )
+            new_order.save()
 
-def payment(request):
-    return render(request,'Payment.html')
+        return render(request, 'checkout.html', {
+            'alldata': cart_items,
+            'subtotal': subtotal,
+            'total': total
+        })
+    
+def thankyou(request):
+    return render(request,'thankyou.html')
 
 def signin(request):
     if request.method == 'POST':

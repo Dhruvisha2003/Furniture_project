@@ -93,26 +93,27 @@
 						<form action="" method="POST">
 							{% csrf_token %}
 							<div class="form-group">
-								<label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
+								<label for="c_country" class="text-black">Country <span
+										class="text-danger">*</span></label>
 								<select id="c_country" class="form-control" name="country">
 									<option value="1">Select a country</option>
-									<option value="2">Bangladesh</option>
-									<option value="3">Algeria</option>
-									<option value="4">Afghanistan</option>
-									<option value="5">Mexico</option>
-									<option value="6">Albania</option>
-									<option value="7">New Zealand</option>
-									<option value="8">Colombia</option>
-									<option value="9">Korea</option>
-									<option value="10">Qatar</option>
-									<option value="11">India</option>
-									<option value="12">Egypt</option>
-									<option value="13">France</option>
-									<option value="14">Japan</option>
-									<option value="15">Germany</option>
-									<option value="16">Iceland</option>
-									<option value="17">Australlia</option>
-	
+									<option value="Bangladesh">Bangladesh</option>
+									<option value="Algeria">Algeria</option>
+									<option value="Afghanistan">Afghanistan</option>
+									<option value="Mexico">Mexico</option>
+									<option value="Albania">Albania</option>
+									<option value="New Zealand">New Zealand</option>
+									<option value="Colombia">Colombia</option>
+									<option value="Korea">Korea</option>
+									<option value="Qatar">Qatar</option>
+									<option value="India">India</option>
+									<option value="Egypt">Egypt</option>
+									<option value="France">France</option>
+									<option value="Japan">Japan</option>
+									<option value="Germany">Germany</option>
+									<option value="Iceland">Iceland</option>
+									<option value="Australia">Australia</option>
+
 								</select>
 							</div>
 							<div class="form-group row">
@@ -127,7 +128,7 @@
 									<input type="text" class="form-control" id="c_lname" name="last_name">
 								</div>
 							</div>
-	
+
 							<div class="form-group row">
 								<div class="col-md-12">
 									<label for="c_address" class="text-black">Address <span
@@ -136,7 +137,7 @@
 										placeholder="Apartment, suite, unit etc.">
 								</div>
 							</div>
-	
+
 							<div class="form-group row">
 								<div class="col-md-12">
 									<label for="c_address" class="text-black">Street <span
@@ -144,20 +145,21 @@
 									<input type="text" class="form-control" id="" name="street">
 								</div>
 							</div>
-	
+
 							<div class="form-group row">
 								<div class="col-md-6">
-									<label for="c_state_country" class="text-black">State <span class="text-danger">*</span></label>
+									<label for="c_state_country" class="text-black">State <span
+											class="text-danger">*</span></label>
 									<input type="text" class="form-control" id="c_state_country" name="state">
 								</div>
-	
+
 								<div class="col-md-6">
 									<label for="c_postal_zip" class="text-black">Posta / Zip <span
 											class="text-danger">*</span></label>
 									<input type="text" class="form-control" id="c_postal_zip" name="zip">
 								</div>
 							</div>
-	
+
 							<div class="form-group row mb-4">
 								<div class="col-md-6">
 									<label for="c_email_address" class="text-black">Email Address <span
@@ -165,13 +167,15 @@
 									<input type="text" class="form-control" id="c_email_address" name="email">
 								</div>
 								<div class="col-md-6">
-									<label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+									<label for="c_phone" class="text-black">Phone <span
+											class="text-danger">*</span></label>
 									<input type="text" class="form-control" id="c_phone" name="phone"
 										placeholder="Phone Number">
 								</div>
 							</div>
 							<div class="form-group mb-2">
-								<button class="btn btn-black btn-lg py-3 btn-block"><a href="" class="check">Save</a></button>
+								<button class="btn btn-black btn-lg py-3 btn-block">
+									<a href="" class="check">Save</a></button>
 							</div>
 						</form>
 
@@ -207,22 +211,22 @@
 												class="text-danger">*</span></label>
 										<select id="c_diff_country" class="form-control">
 											<option value="1">Select a country</option>
-											<option value="2">Bangladesh</option>
-											<option value="3">Algeria</option>
-											<option value="4">Afghanistan</option>
-											<option value="5">Mexico</option>
-											<option value="6">Albania</option>
-											<option value="7">New Zealand</option>
-											<option value="8">Colombia</option>
-											<option value="9">Korea</option>
-											<option value="10">Qatar</option>
-											<option value="11">India</option>
-											<option value="12">Egypt</option>
-											<option value="13">France</option>
-											<option value="14">Japan</option>
-											<option value="15">Germany</option>
-											<option value="16">Iceland</option>
-											<option value="17">Australlia</option>
+											<option value="Bangladesh">Bangladesh</option>
+											<option value="Algeria">Algeria</option>
+											<option value="Afghanistan">Afghanistan</option>
+											<option value="Mexico">Mexico</option>
+											<option value="Albania">Albania</option>
+											<option value="New Zealand">New Zealand</option>
+											<option value="Colombia">Colombia</option>
+											<option value="Korea">Korea</option>
+											<option value="Qatar">Qatar</option>
+											<option value="India">India</option>
+											<option value="Egypt">Egypt</option>
+											<option value="France">France</option>
+											<option value="Japan">Japan</option>
+											<option value="Germany">Germany</option>
+											<option value="Iceland">Iceland</option>
+											<option value="Australlia">Australlia</option>
 										</select>
 									</div>
 
@@ -296,7 +300,7 @@
 							<textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"
 								placeholder="Write your notes here..."></textarea>
 						</div>
-						
+
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -330,16 +334,15 @@
 										<th>Total</th>
 									</thead>
 									<tbody>
-										{% load static %}
-										{% for i in data %}
+										{% for i in cart_items %}
 										<tr>
 											<td>{{i.name}} <strong class="mx-2">x</strong> {{i.quantity}}</td>
 											<td>${{i.total}}</td>
 										</tr>
 										{% endfor %}
-							
-										<td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-										<td class="text-black">${{subtotal}}</td>
+										<tr>
+											<td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+											<td class="text-black">${{subtotal}}</td>
 										</tr>
 										<tr>
 											<td class="text-black font-weight-bold"><strong>Order Total</strong></td>
@@ -347,73 +350,81 @@
 										</tr>
 									</tbody>
 								</table>
-
 								<div class="border p-3 mb-5">
 									<h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse"
 											href="#collapsepaypal" role="button" aria-expanded="false"
-											aria-controls="collapsepaypal">Paypal</a></h3>
+											aria-controls="collapsepaypal">Online Payment Options</a></h3>
 
 									<div class="collapse" id="collapsepaypal">
 										<div class="py-2">
 											<p class="mb-0">
-												<ul class="list-group">
-													<li class="list-group-item">
-														<input class="form-check-input me-1" type="radio" name="payment-method" value="creditdebit" aria-label="..." href="#collapseCard"  data-bs-toggle="collapse">
-														<a >Credit or Debit Card</a>
-														<div class="collapse" id="collapseCard">
-															<div class="card card-body">
-																<label for="cardnumber" class="text-black">Card Number <span class="text-danger">*</span></label>
-															<input type="text" class="form-control" id=""
-																name="">
-																<label for="name" class="text-black">Card Holder Name <span class="text-danger">*</span></label>
-															<input type="text" class="form-control" id=""
-																name="">
-																<label for="name" class="text-black">Expiry Date <span class="text-danger">*</span></label>
-																<input type="date" name="" id="">
-															</div>
+											<ul class="list-group">
+
+												<li class="list-group-item">
+													<input class="form-check-input me-1" type="radio"
+														name="payment_method" value="creditdebit" aria-label="..."
+														href="#collapseCard" data-bs-toggle="collapse">
+													<a>Credit or Debit Card</a>
+													<div class="collapse" id="collapseCard">
+														<div class="card card-body">
+															<label for="cardnumber" class="text-black">Card Number <span
+																	class="text-danger">*</span></label>
+															<input type="text" class="form-control" id="cardnumber" name="">
+															<label for="name" class="text-black">Card Holder Name <span
+																	class="text-danger">*</span></label>
+															<input type="text" class="form-control" id="cardholder" name="">
+															<label for="name" class="text-black">Expiry Date <span
+																	class="text-danger">*</span></label>
+															<input type="date" name="" id="expirydate">
 														</div>
-													</li>
-													<li class="list-group-item">
-														<input class="form-check-input me-1" type="radio" name="payment-method" value="netbanking" aria-label="..." href="#collapsenetbanking"  data-bs-toggle="collapse">
-														<a >New Banking</a>
-														<div class="collapse" id="collapsenetbanking">
-															<div class="card card-body">
-																<label for="acnumber" class="text-black">Account Number <span class="text-danger">*</span></label>
-															<input type="text" class="form-control" id=""
-																name="">
-																<label for="name" class="text-black">Account Holder Name <span class="text-danger">*</span></label>
-															<input type="text" class="form-control" id=""
-																name="">
-															</div>
-														  </div>	
-													</li>
-													<li class="list-group-item">
-														<input class="form-check-input me-1" type="radio" name="payment-method" value="UPI" aria-label="..." href="#collapseupi"  data-bs-toggle="collapse">
-														<a >UPI</a>
-														<div class="collapse" id="collapseupi">
-															<div class="card card-body">
-																<label for="upi" class="text-black">UPI Id <span class="text-danger">*</span></label>
-															<input type="text" class="form-control" id=""
-																name="">
-																<label for="upi" class="text-black">The UPI ID is in the format of name/phone number@bankname</label>
-															</div>
-														  </div>	
-													</li>
-													<li class="list-group-item">
-														<input class="form-check-input me-1" type="radio" name="payment-method" value="wallet" aria-label="..." disabled>
-														Wallet
-													</li>
-												</ul>
-												
+													</div>
+												</li>
+												<li class="list-group-item">
+													<input class="form-check-input me-1" type="radio"
+														name="payment_method" value="netbanking" aria-label="..."
+														href="#collapsenetbanking" data-bs-toggle="collapse">
+													<a>New Banking</a>
+													<div class="collapse" id="collapsenetbanking">
+														<div class="card card-body">
+															<label for="acnumber" class="text-black">Account Number
+																<span class="text-danger">*</span></label>
+															<input type="text" class="form-control" id="" name="">
+															<label for="name" class="text-black">Account Holder Name
+																<span class="text-danger">*</span></label>
+															<input type="text" class="form-control" id="" name="">
+														</div>
+													</div>
+												</li>
+												<li class="list-group-item">
+													<input class="form-check-input me-1" type="radio"
+														name="payment_method" value="UPI" aria-label="..."
+														href="#collapseupi" data-bs-toggle="collapse">
+													<a>UPI</a>
+													<div class="collapse" id="collapseupi">
+														<div class="card card-body">
+															<label for="upi" class="text-black">UPI Id <span
+																	class="text-danger">*</span></label>
+															<input type="text" class="form-control" id="" name="">
+															<label for="upi" class="text-black">The UPI ID is in the
+																format of name/phone number@bankname</label>
+														</div>
+													</div>
+												</li>
+												<li class="list-group-item">
+													<input class="form-check-input me-1" type="radio"
+														name="payment_method" value="wallet" aria-label="..." disabled>
+													Wallet
+												</li>
+											</ul>
 											</p>
 										</div>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<button class="btn btn-black btn-lg py-3 btn-block"><a href="{% url 'pay' %}" class="check">Proceed to Payment</a></button>
+									<button class="btn btn-black btn-lg py-3 btn-block"><a href="{% url 'thanks' %}"
+											class="check">Proceed to Payment</a></button>
 								</div>
-
 							</div>
 						</div>
 					</div>
