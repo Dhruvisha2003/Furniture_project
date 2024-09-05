@@ -1,5 +1,7 @@
 from django.shortcuts import *
 from django.http import HttpResponse
+from django.contrib import messages
+from django.contrib.messages import get_messages
 from .models import Menu
 from .models import products
 from .models import pdetails
@@ -96,28 +98,34 @@ def checkOut(request):
 
         detail = data(country=country,first_name=first_name,last_name=last_name,address=address,street=street,state=state,zip=zip,email=email,phone=phone)
         detail.save()
-        return redirect('pay')
-    return render(request,'checkout.html')
-
-def order_view(request):
-        cart_items = addCart.objects.all()
-        subtotal = sum(item.total for item in cart_items)
-        total = subtotal
-        
+    cart_items = addCart.objects.all()
+    if cart_items:
         for item in cart_items:
-            new_order = order(
+            order_item = order(
                 name=item.name,
                 quantity=item.quantity,
                 total=item.total
             )
-            new_order.save()
+        order_item.save()
+    subtotal = sum(i.total for i in cart_items)
+    total = subtotal
+    return render(request,'checkout.html',{"cart_items":cart_items,'subtotal':subtotal,'total':total})
 
-        return render(request, 'checkout.html', {
-            'alldata': cart_items,
-            'subtotal': subtotal,
-            'total': total
-        })
+
+def payment_view(request):
+    if request.method == 'POST':
+        cardnumber = request.POST.get('cardnumber')
+        cardholder = request.POST.get('cardholder')
+        expirydate = request.POST.get('expirydate')
+        if not cardnumber or not cardholder or not expirydate:
+            messages.error(request, "Please fill in all payment details.")
+            storage = get_messages(request)
+            for message in storage:
+                print(message) 
     
+    return render(request, 'checkout.html')
+
+
 def thankyou(request):
     return render(request,'thankyou.html')
 

@@ -350,6 +350,13 @@
 										</tr>
 									</tbody>
 								</table>
+								{% if messages %}
+									{% for message in messages %}
+										<div class="alert alert-{{ message.tags }}">
+											{{ message }}
+										</div>
+									{% endfor %}
+								{% endif %}
 								<div class="border p-3 mb-5">
 									<h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse"
 											href="#collapsepaypal" role="button" aria-expanded="false"
@@ -358,71 +365,73 @@
 									<div class="collapse" id="collapsepaypal">
 										<div class="py-2">
 											<p class="mb-0">
-											<ul class="list-group">
-
-												<li class="list-group-item">
-													<input class="form-check-input me-1" type="radio"
-														name="payment_method" value="creditdebit" aria-label="..."
-														href="#collapseCard" data-bs-toggle="collapse">
-													<a>Credit or Debit Card</a>
-													<div class="collapse" id="collapseCard">
-														<div class="card card-body">
-															<label for="cardnumber" class="text-black">Card Number <span
-																	class="text-danger">*</span></label>
-															<input type="text" class="form-control" id="cardnumber" name="">
-															<label for="name" class="text-black">Card Holder Name <span
-																	class="text-danger">*</span></label>
-															<input type="text" class="form-control" id="cardholder" name="">
-															<label for="name" class="text-black">Expiry Date <span
-																	class="text-danger">*</span></label>
-															<input type="date" name="" id="expirydate">
-														</div>
-													</div>
-												</li>
-												<li class="list-group-item">
-													<input class="form-check-input me-1" type="radio"
-														name="payment_method" value="netbanking" aria-label="..."
-														href="#collapsenetbanking" data-bs-toggle="collapse">
-													<a>New Banking</a>
-													<div class="collapse" id="collapsenetbanking">
-														<div class="card card-body">
-															<label for="acnumber" class="text-black">Account Number
-																<span class="text-danger">*</span></label>
-															<input type="text" class="form-control" id="" name="">
-															<label for="name" class="text-black">Account Holder Name
-																<span class="text-danger">*</span></label>
-															<input type="text" class="form-control" id="" name="">
-														</div>
-													</div>
-												</li>
-												<li class="list-group-item">
-													<input class="form-check-input me-1" type="radio"
-														name="payment_method" value="UPI" aria-label="..."
-														href="#collapseupi" data-bs-toggle="collapse">
-													<a>UPI</a>
-													<div class="collapse" id="collapseupi">
-														<div class="card card-body">
-															<label for="upi" class="text-black">UPI Id <span
-																	class="text-danger">*</span></label>
-															<input type="text" class="form-control" id="" name="">
-															<label for="upi" class="text-black">The UPI ID is in the
-																format of name/phone number@bankname</label>
-														</div>
-													</div>
-												</li>
-												<li class="list-group-item">
-													<input class="form-check-input me-1" type="radio"
-														name="payment_method" value="wallet" aria-label="..." disabled>
-													Wallet
-												</li>
-											</ul>
+												<form action="" method="post">
+													<ul class="list-group">	
+														<li class="list-group-item">
+															<input class="form-check-input me-1" type="radio"
+																name="payment_method" value="creditdebit" aria-label="..."
+																href="#collapseCard" data-bs-toggle="collapse">
+															<a>Credit or Debit Card</a>
+															<div class="collapse" id="collapseCard">
+																<div class="card card-body">
+																	
+																	<label for="cardnumber" class="text-black">Card Number <span
+																			class="text-danger">*</span></label>
+																	<input type="text" class="form-control" id="cardnumber" name="cardnumber">
+																	<label for="name" class="text-black">Card Holder Name <span
+																			class="text-danger">*</span></label>
+																	<input type="text" class="form-control" id="cardholder" name="cardholder">
+																	<label for="name" class="text-black">Expiry Date <span
+																			class="text-danger">*</span></label>
+																	<input type="date" name="expirydate" id="expirydate">
+																</div>
+															</div>
+														</li>
+														<li class="list-group-item">
+															<input class="form-check-input me-1" type="radio"
+																name="payment_method" value="netbanking" aria-label="..."
+																href="#collapsenetbanking" data-bs-toggle="collapse">
+															<a>New Banking</a>
+															<div class="collapse" id="collapsenetbanking">
+																<div class="card card-body">
+																	<label for="acnumber" class="text-black">Account Number
+																		<span class="text-danger">*</span></label>
+																	<input type="text" class="form-control" id="" name="">
+																	<label for="name" class="text-black">Account Holder Name
+																		<span class="text-danger">*</span></label>
+																	<input type="text" class="form-control" id="" name="">
+																</div>
+															</div>
+														</li>
+														<li class="list-group-item">
+															<input class="form-check-input me-1" type="radio"
+																name="payment_method" value="UPI" aria-label="..."
+																href="#collapseupi" data-bs-toggle="collapse">
+															<a>UPI</a>
+															<div class="collapse" id="collapseupi">
+																<div class="card card-body">
+																	<label for="upi" class="text-black">UPI Id <span
+																			class="text-danger">*</span></label>
+																	<input type="text" class="form-control" id="" name="">
+																	<label for="upi" class="text-black">The UPI ID is in the
+																		format of name/phone number@bankname</label>
+																</div>
+															</div>
+														</li>
+														<li class="list-group-item">
+															<input class="form-check-input me-1" type="radio"
+																name="payment_method" value="wallet" aria-label="..." disabled>
+															Wallet
+														</li>
+													</ul>
+												</form>
 											</p>
 										</div>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<button class="btn btn-black btn-lg py-3 btn-block"><a href="{% url 'thanks' %}"
+									<button class="btn btn-black btn-lg py-3 btn-block"><a href=""
 											class="check">Proceed to Payment</a></button>
 								</div>
 							</div>

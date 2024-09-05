@@ -32,7 +32,7 @@ urlpatterns = [
     path('Register/',views.signin,name='register'),
     path('Login/',views.signup,name='login'),
     path('Checkout/',views.checkOut,name='checkout'),
-    path('order/',views.order_view,name='yourorder'),
+    path('payment/',views.payment_view,name='payment'),
     path('thanks/',views.thankyou,name='thanks'),
 
 ]
