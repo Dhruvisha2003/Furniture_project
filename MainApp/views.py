@@ -96,33 +96,62 @@ def checkOut(request):
         email = request.POST.get('email')
         phone = request.POST.get('phone')
 
-        detail = data(country=country,first_name=first_name,last_name=last_name,address=address,street=street,state=state,zip=zip,email=email,phone=phone)
-        detail.save()
-    cart_items = addCart.objects.all()
-    if cart_items:
-        for item in cart_items:
-            order_item = order(
-                name=item.name,
-                quantity=item.quantity,
-                total=item.total
-            )
-        order_item.save()
-    subtotal = sum(i.total for i in cart_items)
-    total = subtotal
-    return render(request,'checkout.html',{"cart_items":cart_items,'subtotal':subtotal,'total':total})
+    
+        if not data.objects.filter(country=country,first_name=first_name,last_name=last_name,address=address,street=street,state=state,zip=zip,email=email,phone=phone).exists():
+            detail = data(country=country, first_name=first_name, last_name=last_name,
+                address=address, street=street, state=state, zip=zip, email=email, phone=phone)
+            detail.save()
 
+    items = addCart.objects.all()
+    subtotal = sum(i.total for i in items)
+    
+    existing_orders_in_db = set((o.name, o.quantity) for o in order.objects.all())
+    
+    for item in items:
+        if (item.name, item.quantity) not in existing_orders_in_db:
+            existing_orders_in_db.add((item.name, item.quantity))
+            order_item = order(name=item.name, quantity=item.quantity, total=item.total)
+            order_item.save()
+    
+    total = subtotal
+    return render(request, 'checkout.html', {"items": items, 'subtotal': subtotal, 'total': total})
 
 def payment_view(request):
     if request.method == 'POST':
-        cardnumber = request.POST.get('cardnumber')
-        cardholder = request.POST.get('cardholder')
-        expirydate = request.POST.get('expirydate')
-        if not cardnumber or not cardholder or not expirydate:
-            messages.error(request, "Please fill in all payment details.")
-            storage = get_messages(request)
-            for message in storage:
-                print(message) 
-    
+        payment_method = request.POST.get('payment_method')
+        
+        if payment_method == 'creditdebit':
+            cardnumber = request.POST.get('cardnumber')
+            cardholder = request.POST.get('cardholder')
+            expirydate = request.POST.get('expirydate')
+            print(cardnumber)
+            print(cardholder)
+            print(expirydate)
+            if cardnumber and cardholder and expirydate:
+                return redirect('/thanks')
+            else:
+                return render(request, 'checkout.html', {'error': 'Please fill out all required fields for credit/debit card.'})
+        
+        # elif payment_method == 'netbanking':
+        #     account_number = request.POST.get('acnumber')
+        #     account_holder = request.POST.get('account_holder')
+            
+        #     if account_number and account_holder:
+        #         return redirect('thanks')
+        #     else:
+        #         return render(request, 'checkout.html', {'error': 'Please fill out all required fields for net banking.'})
+        
+        # elif payment_method == 'UPI':
+        #     upi_id = request.POST.get('upi')
+            
+        #     if upi_id:
+        #         return redirect('thanks')
+        #     else:
+        #         return render(request, 'checkout.html', {'error': 'Please provide your UPI ID.'})
+        
+        else:
+            return render(request, 'checkout.html', {'error': 'Unknown payment method selected.'})
+
     return render(request, 'checkout.html')
 
 
@@ -149,7 +178,6 @@ def signup(request):
         log = register.objects.filter(email=email).first()
         
         if log:
-            # Strip any whitespace from the stored password as well
             if password == log.password.strip():
                 return redirect('/')
             else:
