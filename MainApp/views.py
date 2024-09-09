@@ -96,27 +96,29 @@ def checkOut(request):
         email = request.POST.get('email')
         phone = request.POST.get('phone')
 
-    
-        if not data.objects.filter(country=country,first_name=first_name,last_name=last_name,address=address,street=street,state=state,zip=zip,email=email,phone=phone).exists():
-            detail = data(country=country, first_name=first_name, last_name=last_name,
+        detail = data(country=country, first_name=first_name, last_name=last_name,
                 address=address, street=street, state=state, zip=zip, email=email, phone=phone)
-            detail.save()
+        detail.save()
 
-    items = addCart.objects.all()
-    subtotal = sum(i.total for i in items)
-    
-    existing_orders_in_db = set((o.name, o.quantity) for o in order.objects.all())
-    
-    for item in items:
-        if (item.name, item.quantity) not in existing_orders_in_db:
-            existing_orders_in_db.add((item.name, item.quantity))
-            order_item = order(name=item.name, quantity=item.quantity, total=item.total)
-            order_item.save()
-    
+    print('hello')
+    product = addCart.objects.all()
+    for i in product:
+        name = i.name
+        quantity = i.quantity
+        total = i.total
+        print(name)
+        print(quantity)
+        print(total)
+        order_item = order(name=name,quantity=quantity,total=total)
+        order_item.save()
+    order_items = order.objects.all()
+    subtotal = sum(i.total for i in product)
     total = subtotal
-    return render(request, 'checkout.html', {"items": items, 'subtotal': subtotal, 'total': total})
+
+    return redirect('checkOut',{'order_items':order_items,'subtotal':subtotal,'total':total})
 
 def payment_view(request):
+    # print('Hello')
     if request.method == 'POST':
         payment_method = request.POST.get('payment_method')
         
@@ -124,30 +126,30 @@ def payment_view(request):
             cardnumber = request.POST.get('cardnumber')
             cardholder = request.POST.get('cardholder')
             expirydate = request.POST.get('expirydate')
-            print(cardnumber)
-            print(cardholder)
-            print(expirydate)
+            # print(cardnumber)
+            # print(cardholder)
+            # print(expirydate)
             if cardnumber and cardholder and expirydate:
                 return redirect('/thanks')
             else:
                 return render(request, 'checkout.html', {'error': 'Please fill out all required fields for credit/debit card.'})
         
-        # elif payment_method == 'netbanking':
-        #     account_number = request.POST.get('acnumber')
-        #     account_holder = request.POST.get('account_holder')
+        elif payment_method == 'netbanking':
+            account_number = request.POST.get('acnumber')
+            account_holder = request.POST.get('account_holder')
             
-        #     if account_number and account_holder:
-        #         return redirect('thanks')
-        #     else:
-        #         return render(request, 'checkout.html', {'error': 'Please fill out all required fields for net banking.'})
+            if account_number and account_holder:
+                return redirect('thanks')
+            else:
+                return render(request, 'checkout.html', {'error': 'Please fill out all required fields for net banking.'})
         
-        # elif payment_method == 'UPI':
-        #     upi_id = request.POST.get('upi')
+        elif payment_method == 'UPI':
+            upi_id = request.POST.get('upi')
             
-        #     if upi_id:
-        #         return redirect('thanks')
-        #     else:
-        #         return render(request, 'checkout.html', {'error': 'Please provide your UPI ID.'})
+            if upi_id:
+                return redirect('thanks')
+            else:
+                return render(request, 'checkout.html', {'error': 'Please provide your UPI ID.'})
         
         else:
             return render(request, 'checkout.html', {'error': 'Unknown payment method selected.'})
