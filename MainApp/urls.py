@@ -32,7 +32,8 @@ urlpatterns = [
     path('Register/',views.signin,name='register'),
     path('Login/',views.signup,name='login'),
     path('Checkout/',views.checkOut,name='checkout'),
-    path('payment/',views.payment_view,name='payment'),
+    path('Order/',views.order_view,name='order_view'),
+    path('Payment/',views.payment_view,name='payment'),
     path('thanks/',views.thankyou,name='thanks'),
 
 ]

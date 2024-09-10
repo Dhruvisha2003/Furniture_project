@@ -1,6 +1,6 @@
 from django.shortcuts import *
 from django.http import HttpResponse
-from django.contrib import messages
+# from django.contrib import messages
 from django.contrib.messages import get_messages
 from .models import Menu
 from .models import products
@@ -12,7 +12,7 @@ from .models import blog_list
 from .models import register
 from .models import addCart
 from .models import data
-from .models import order
+# from .models import order
 
 # Create your views here.
 
@@ -85,6 +85,7 @@ def update_cart_quantity(request):
     return redirect('cart_view')
 
 def checkOut(request):
+    # print("hello")
     if request.method == 'POST':
         country = request.POST.get('country')
         first_name = request.POST.get('first_name')
@@ -99,62 +100,58 @@ def checkOut(request):
         detail = data(country=country, first_name=first_name, last_name=last_name,
                 address=address, street=street, state=state, zip=zip, email=email, phone=phone)
         detail.save()
+  
+    return render(request,'checkout.html')
 
-    print('hello')
-    product = addCart.objects.all()
-    for i in product:
-        name = i.name
-        quantity = i.quantity
-        total = i.total
-        print(name)
-        print(quantity)
-        print(total)
-        order_item = order(name=name,quantity=quantity,total=total)
-        order_item.save()
-    order_items = order.objects.all()
-    subtotal = sum(i.total for i in product)
+def order_view(request):
+    print('orders')
+    alll=addCart.objects.all()
+    subtotal = sum(i.total for i in alll)
     total = subtotal
-
-    return redirect('checkOut',{'order_items':order_items,'subtotal':subtotal,'total':total})
+    return render(request,'order.html',{"alll":alll,"subtotal":subtotal,"total":total})
 
 def payment_view(request):
-    # print('Hello')
+    print('call')
     if request.method == 'POST':
         payment_method = request.POST.get('payment_method')
         
         if payment_method == 'creditdebit':
+            print('card')
             cardnumber = request.POST.get('cardnumber')
             cardholder = request.POST.get('cardholder')
             expirydate = request.POST.get('expirydate')
-            # print(cardnumber)
-            # print(cardholder)
-            # print(expirydate)
+          
             if cardnumber and cardholder and expirydate:
-                return redirect('/thanks')
+                print('hello')
+                return redirect('/thanks/')
             else:
-                return render(request, 'checkout.html', {'error': 'Please fill out all required fields for credit/debit card.'})
+                return render(request, 'order.html', {'error': 'Please fill out all required fields for credit/debit card.'})
         
         elif payment_method == 'netbanking':
-            account_number = request.POST.get('acnumber')
+            print('netbanking')
+            account_number = request.POST.get('account_number')
             account_holder = request.POST.get('account_holder')
             
             if account_number and account_holder:
-                return redirect('thanks')
+                print('hello')
+                return redirect('/thanks')
             else:
-                return render(request, 'checkout.html', {'error': 'Please fill out all required fields for net banking.'})
+                return render(request, 'order.html', {'error': 'Please fill out all required fields for net banking.'})
         
         elif payment_method == 'UPI':
+            print('upi')
             upi_id = request.POST.get('upi')
             
             if upi_id:
-                return redirect('thanks')
+                print('hello')
+                return redirect('/thanks')
             else:
-                return render(request, 'checkout.html', {'error': 'Please provide your UPI ID.'})
+                return render(request, 'order.html', {'error': 'Please provide your UPI ID.'})
         
         else:
-            return render(request, 'checkout.html', {'error': 'Unknown payment method selected.'})
+            return render(request, 'order.html', {'error': 'Unknown payment method selected.'})
 
-    return render(request, 'checkout.html')
+    return render(request, 'order.html')
 
 
 def thankyou(request):

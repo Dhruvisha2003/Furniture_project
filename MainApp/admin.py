@@ -9,7 +9,7 @@ from .models import blog_list
 from .models import register
 from .models import addCart
 from .models import data
-from .models import order
+# from .models import order
 
 admin.site.register(Menu)
 admin.site.register(products)
@@ -21,6 +21,6 @@ admin.site.register(blog_list)
 admin.site.register(register)
 admin.site.register(addCart)
 admin.site.register(data)
-admin.site.register(order)
+# admin.site.register(order)
 
 
