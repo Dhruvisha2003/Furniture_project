@@ -82,7 +82,8 @@
 			<div class="row mb-5">
 				<div class="col-md-12">
 					<div class="border p-4 rounded" role="alert">
-						Returning customer? <a href="#">Click here</a> to login
+						Returning customer? <a href="
+						{% url 'login' %}">Click here</a> to login
 					</div>
 				</div>
 			</div>
@@ -90,7 +91,8 @@
 				<!-- <div class="col-md-6 mb-5 mb-md-0"> -->
 					<h2 class="h3 mb-3 text-black">Billing Details</h2>
 					<div class="p-3 p-lg-5 border bg-white">
-						<form action="" method="POST">
+						
+						<form action="{% url 'checkout' %}" method="POST">
 							{% csrf_token %}
 							<div class="form-group">
 								<label for="c_country" class="text-black">Country <span
@@ -175,7 +177,7 @@
 							</div>
 							<div class="form-group mb-2">
 								<button class="btn btn-black btn-lg py-3 btn-block">
-									<a href="{% url 'order_view' %}" class="check">Save</a></button>
+									Save</button>
 							</div>
 						</form>
 

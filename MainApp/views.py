@@ -1,7 +1,5 @@
 from django.shortcuts import *
 from django.http import HttpResponse
-# from django.contrib import messages
-from django.contrib.messages import get_messages
 from .models import Menu
 from .models import products
 from .models import pdetails
@@ -85,8 +83,9 @@ def update_cart_quantity(request):
     return redirect('cart_view')
 
 def checkOut(request):
-    # print("hello")
+
     if request.method == 'POST':
+        print('Received POST request')
         country = request.POST.get('country')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -96,11 +95,14 @@ def checkOut(request):
         zip = request.POST.get('zip')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
-
+        print('Form data received')
+        if data.objects.filter(email=email).exists():
+            return HttpResponse('This email is already used! Please try with another email.')
+        
         detail = data(country=country, first_name=first_name, last_name=last_name,
                 address=address, street=street, state=state, zip=zip, email=email, phone=phone)
         detail.save()
-  
+        return redirect('order_view')
     return render(request,'checkout.html')
 
 def order_view(request):
@@ -123,6 +125,7 @@ def payment_view(request):
           
             if cardnumber and cardholder and expirydate:
                 print('hello')
+                addCart.objects.all().delete()
                 return redirect('/thanks/')
             else:
                 return render(request, 'order.html', {'error': 'Please fill out all required fields for credit/debit card.'})
@@ -134,6 +137,7 @@ def payment_view(request):
             
             if account_number and account_holder:
                 print('hello')
+                addCart.objects.all().delete()
                 return redirect('/thanks')
             else:
                 return render(request, 'order.html', {'error': 'Please fill out all required fields for net banking.'})
@@ -144,6 +148,7 @@ def payment_view(request):
             
             if upi_id:
                 print('hello')
+                addCart.objects.all().delete()
                 return redirect('/thanks')
             else:
                 return render(request, 'order.html', {'error': 'Please provide your UPI ID.'})
@@ -163,10 +168,13 @@ def signin(request):
         email = request.POST['email']
         password = request.POST['password']
         cpassword = request.POST['cpassword']
-
-        user = register(username=username,email=email,password=password,cpassword=cpassword)
-        user.save()
-        return redirect('login')
+        if email:
+            return HttpResponse('This email is already registered')
+        else:
+            user = register(username=username,email=email,password=password,cpassword=cpassword)
+            user.save()
+        
+            return redirect('login')
     return render(request,'signin.html')
 
 def signup(request):

@@ -1,75 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="author" content="Untree.co">
-	<link rel="shortcut icon" href="../static/images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="../static/images/favicon.png">
 
-	<meta name="description" content="" />
-	<meta name="keywords" content="bootstrap, bootstrap4" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
 
-	<!-- Bootstrap CSS -->
-	<link href="../static/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-	<link href="../static/css/tiny-slider.css" rel="stylesheet">
-	<link href="../static/css/style.css" rel="stylesheet">
-	<title>Order </title>
+    <!-- Bootstrap CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="../static/css/tiny-slider.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+    <title>Order </title>
 </head>
+
 <body>
-    
+
     <!-- Start Header/Navigation -->
-	<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+    <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
 
-		<div class="container">
-			<a class="navbar-brand" href="/">Furni<span>.</span></a>
+        <div class="container">
+            <a class="navbar-brand" href="/">Furni<span>.</span></a>
 
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
-				aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
+                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-			<div class="collapse navbar-collapse" id="navbarsFurni">
-				<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-					<li class="nav-item ">
-						<a class="nav-link" href="/">Home</a>
-					</li>
-					<li><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
-					<li><a class="nav-link" href="{% url 'aboutus' %}">About us</a></li>
-					<li><a class="nav-link" href="{% url 'services' %}">Services</a></li>
-					<li><a class="nav-link" href="{% url 'Ourblog' %}">Blog</a></li>
-					<li><a class="nav-link" href="{% url 'contactUs' %}">Contact us</a></li>
-				</ul>
+            <div class="collapse navbar-collapse" id="navbarsFurni">
+                <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
+                    <li><a class="nav-link" href="{% url 'aboutus' %}">About us</a></li>
+                    <li><a class="nav-link" href="{% url 'services' %}">Services</a></li>
+                    <li><a class="nav-link" href="{% url 'Ourblog' %}">Blog</a></li>
+                    <li><a class="nav-link" href="{% url 'contactUs' %}">Contact us</a></li>
+                </ul>
 
-				<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-					<li><a class="nav-link" href="{% url 'login' %}"><img src="../static/images/user.svg"></a></li>
-					<li><a class="nav-link" href="{% url 'cart_view' %}"><img src="../static/images/cart.svg"></a></li>
-				</ul>
-			</div>
-		</div>
+                <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                    <li><a class="nav-link" href="{% url 'login' %}"><img src="../static/images/user.svg"></a></li>
+                    <li><a class="nav-link" href="{% url 'cart_view' %}"><img src="../static/images/cart.svg"></a></li>
+                </ul>
+            </div>
+        </div>
 
-	</nav>
-	<!-- End Header/Navigation -->
+    </nav>
+    <!-- End Header/Navigation -->
 
-    	<!-- Start Hero Section -->
-	<div class="hero">
-		<div class="container">
-			<div class="row justify-content-between">
-				<div class="col-lg-5">
-					<div class="intro-excerpt">
-						<h1>Your Order</h1>
-					</div>
-				</div>
-				<div class="col-lg-7">
+    <!-- Start Hero Section -->
+    <div class="hero">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-lg-5">
+                    <div class="intro-excerpt">
+                        <h1>Your Order</h1>
+                    </div>
+                </div>
+                <div class="col-lg-7">
 
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Hero Section -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Hero Section -->
 
-    
-    <div class="row mb-5"> 
+
+    <div class="row mb-5">
         <div class="col-md-12">
             <!-- <h2 class="h3 mb-3 text-black">Your Order</h2>  -->
             <div class="p-3 p-lg-5 border bg-white">
@@ -106,34 +108,50 @@
                         <option value="netbanking">Net Banking</option>
                         <option value="UPI">UPI</option>
                     </select><br>
-            
+
                     <div id="creditdebit-fields" style="display:none;">
                         <label class="text-black" for="cardnumber">Card Number:</label>
                         <input class="form-control" type="text" name="cardnumber" id="cardnumber"><br>
                         <label class="text-black" for="cardholder">Card Holder:</label>
                         <input class="form-control" type="text" name="cardholder" id="cardholder"><br>
                         <label class="text-black" for="expirydate">Expiry Date:</label>
-                        <input class="form-control" type="text" name="expirydate" id="expirydate"><br>
+                        <input class="form-control" type="date" name="expirydate" id="expirydate"><br>
                     </div>
-            
+
                     <div id="netbanking-fields" style="display:none;">
-                        <label for="account_number">Account Number:</label>
-                        <input type="text" name="account_number" id="account_number"><br>
-                        <label for="account_holder">Account Holder:</label>
-                        <input type="text" name="account_holder" id="account_holder"><br>
+                        <label class="text-black" for="account_number">Account Number:</label>
+                        <input class="form-control" type="text" name="account_number" id="account_number"><br>
+                        <label class="text-black" for="account_holder">Account Holder:</label>
+                        <input type="text" class="form-control" name="account_holder" id="account_holder"><br>
                     </div>
-            
+
                     <div id="upi-fields" style="display:none;">
-                        <label for="upi">UPI ID:</label>
-                        <input type="text" name="upi" id="upi"><br>
+                        <label class="text-black" for="upi">UPI ID:</label>
+                        <input type="text" class="form-control" name="upi" id="upi">
+                        <label for="upi" class="text-black">The UPI ID is in the
+                            format of name/phone number@bankname</label>
                     </div>
-            
+                    <br>
                     <input class="btn btn-black btn-md py-3 btn-block" type="submit" value="Submit">
                 </form>
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <div class="row mb-5">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <button class="btn btn-black btn-sm btn-block "><a class="continue" href="{% url 'cart_view' %}">Update Cart</a></button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-outline-black btn-sm btn-block"><a href="{% url 'shop' %}"
+                                            class="continue">Continue Shopping</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              
                 {% if error %}
                 <p style="color:red;">{{ error }}</p>
                 {% endif %}
-            
+
                 <!-- <form action="{% url 'payment' %}" method="POST">
                     {% csrf_token %}
                     <div class="border p-3 mb-5">
@@ -227,15 +245,16 @@
     </div>
 
     <script>
-        document.getElementById('payment_method').addEventListener('change', function() {
+        document.getElementById('payment_method').addEventListener('change', function () {
             document.getElementById('creditdebit-fields').style.display = this.value === 'creditdebit' ? 'block' : 'none';
             document.getElementById('netbanking-fields').style.display = this.value === 'netbanking' ? 'block' : 'none';
             document.getElementById('upi-fields').style.display = this.value === 'UPI' ? 'block' : 'none';
         });
     </script>
-	<script src="../static/js/bootstrap.bundle.min.js"></script>
-	<script src="../static/js/tiny-slider.js"></script>
-	<script src="../static/js/custom.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/tiny-slider.js"></script>
+    <script src="../static/js/custom.js"></script>
 
 </body>
+
 </html>
