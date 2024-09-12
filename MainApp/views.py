@@ -1,5 +1,6 @@
 from django.shortcuts import *
 from django.http import HttpResponse
+# from django.contrib.auth.decorators import login_required
 from .models import Menu
 from .models import products
 from .models import pdetails
@@ -7,7 +8,7 @@ from .models import shop
 from .models import blogs
 from .models import About
 from .models import blog_list
-from .models import register
+from .models import registeration
 from .models import addCart
 from .models import data
 # from .models import order
@@ -82,7 +83,16 @@ def update_cart_quantity(request):
     print(all)
     return redirect('cart_view')
 
+# @login_required(login_url='/login/')
 def checkOut(request):
+    userid = request.user.id
+    print(userid)
+    
+    try:
+        register_entry = registeration.objects.get(id=userid)
+        print(f'User ID found in Register table: {register_entry.user_id}')
+    except registeration.DoesNotExist:
+        return HttpResponse('User not found in the Register table.')
 
     if request.method == 'POST':
         print('Received POST request')
@@ -98,13 +108,13 @@ def checkOut(request):
         print('Form data received')
         if data.objects.filter(email=email).exists():
             return HttpResponse('This email is already used! Please try with another email.')
-        
         detail = data(country=country, first_name=first_name, last_name=last_name,
-                address=address, street=street, state=state, zip=zip, email=email, phone=phone)
+                address=address, street=street, state=state, zip=zip, email=email,phone=phone)
         detail.save()
         return redirect('order_view')
     return render(request,'checkout.html')
 
+    
 def order_view(request):
     print('orders')
     alll=addCart.objects.all()
@@ -162,7 +172,7 @@ def payment_view(request):
 def thankyou(request):
     return render(request,'thankyou.html')
 
-def signin(request):
+def register_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
@@ -171,18 +181,18 @@ def signin(request):
         if email:
             return HttpResponse('This email is already registered')
         else:
-            user = register(username=username,email=email,password=password,cpassword=cpassword)
+            user = registeration(username=username,email=email,password=password,cpassword=cpassword)
             user.save()
         
             return redirect('login')
     return render(request,'signin.html')
 
-def signup(request):
+def login_user(request):
     if request.method == 'POST':
         email = request.POST.get('email').strip()
         password = request.POST.get('password').strip()
         
-        log = register.objects.filter(email=email).first()
+        log = registeration.objects.filter(email=email).first()
         
         if log:
             if password == log.password.strip():

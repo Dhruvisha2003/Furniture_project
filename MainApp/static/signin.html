@@ -78,6 +78,7 @@
 
 					<form method="post">
 						{% csrf_token %}
+						<input type="hidden" name="userid" value="{{ i.id }}">
 						<div class="form-group">
 							<label class="text-black" for="username">Username</label>
 							<input type="text" class="form-control" name="username">

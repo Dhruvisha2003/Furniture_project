@@ -6,7 +6,7 @@ from .models import shop
 from .models import blogs
 from .models import About
 from .models import blog_list
-from .models import register
+from .models import registeration
 from .models import addCart
 from .models import data
 # from .models import order
@@ -18,7 +18,7 @@ admin.site.register(shop)
 admin.site.register(blogs)
 admin.site.register(About)
 admin.site.register(blog_list)
-admin.site.register(register)
+admin.site.register(registeration)
 admin.site.register(addCart)
 admin.site.register(data)
 # admin.site.register(order)

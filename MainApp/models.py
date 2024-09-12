@@ -37,12 +37,6 @@ class blog_list(models.Model):
     photo = models.ImageField()
     detail = models.CharField(max_length=100)
 
-class register(models.Model):
-    username = models.CharField(max_length=50)
-    email = models.CharField(max_length=50)
-    password = models.CharField(max_length=10)
-    cpassword = models.CharField(max_length=10)
-
 class addCart(models.Model):
     image = models.ImageField()
     name = models.CharField(max_length=50)
@@ -61,7 +55,9 @@ class data(models.Model):
     email = models.CharField(max_length=50)
     phone = models.CharField(max_length=10)
 
-class order(models.Model):
-    name = models.CharField(max_length=200)
-    quantity = models.IntegerField()
-    total = models.IntegerField()
+class registeration(models.Model):
+    userid = models.IntegerField()
+    username = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
+    password = models.CharField(max_length=10)
+    cpassword = models.CharField(max_length=10)
