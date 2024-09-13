@@ -123,7 +123,7 @@ def checkOut(request):
 
         ship_detail = ship_address(
             country=country, first_name=first_name, last_name=last_name,
-            address=address, street=street, state=state, zip=zip, email=email, phone=phone, ordernote=ordernote)
+            address=address, street=street, state=state, zip=zip, email=email, phone=phone)
         ship_detail.save()
 
         return redirect('order_view')
