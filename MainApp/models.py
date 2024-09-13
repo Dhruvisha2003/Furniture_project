@@ -44,7 +44,13 @@ class addCart(models.Model):
     quantity = models.IntegerField()
     total = models.IntegerField()
 
-class data(models.Model):
+class register_data(models.Model):
+    username = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
+    password = models.CharField(max_length=10)
+    cpassword = models.CharField(max_length=10)
+
+class bill_address(models.Model):
     country = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -54,10 +60,15 @@ class data(models.Model):
     zip = models.CharField(max_length=6)
     email = models.CharField(max_length=50)
     phone = models.CharField(max_length=10)
+    ordernotes = models.CharField(max_length=500,null=True,blank=True)
 
-class registeration(models.Model):
-    userid = models.IntegerField()
-    username = models.CharField(max_length=50)
+class ship_address(models.Model):
+    country = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    address = models.CharField(max_length=300)
+    street = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    zip = models.CharField(max_length=6)
     email = models.CharField(max_length=50)
-    password = models.CharField(max_length=10)
-    cpassword = models.CharField(max_length=10)
+    phone = models.CharField(max_length=10)

@@ -1,5 +1,6 @@
 from django.shortcuts import *
 from django.http import HttpResponse
+from django.contrib import messages
 # from django.contrib.auth.decorators import login_required
 from .models import Menu
 from .models import products
@@ -8,9 +9,11 @@ from .models import shop
 from .models import blogs
 from .models import About
 from .models import blog_list
-from .models import registeration
+from .models import register_data
 from .models import addCart
-from .models import data
+from .models import bill_address
+from .models import ship_address
+
 # from .models import order
 
 # Create your views here.
@@ -83,19 +86,9 @@ def update_cart_quantity(request):
     print(all)
     return redirect('cart_view')
 
-# @login_required(login_url='/login/')
 def checkOut(request):
-    userid = request.user.id
-    print(userid)
-    
-    try:
-        register_entry = registeration.objects.get(id=userid)
-        print(f'User ID found in Register table: {register_entry.user_id}')
-    except registeration.DoesNotExist:
-        return HttpResponse('User not found in the Register table.')
-
     if request.method == 'POST':
-        print('Received POST request')
+        email = request.POST.get('email')
         country = request.POST.get('country')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -103,16 +96,38 @@ def checkOut(request):
         street = request.POST.get('street')
         state = request.POST.get('state')
         zip = request.POST.get('zip')
-        email = request.POST.get('email')
         phone = request.POST.get('phone')
-        print('Form data received')
-        if data.objects.filter(email=email).exists():
-            return HttpResponse('This email is already used! Please try with another email.')
-        detail = data(country=country, first_name=first_name, last_name=last_name,
-                address=address, street=street, state=state, zip=zip, email=email,phone=phone)
+        ordernote = request.POST.get('ordernote')
+        
+        if not email:
+            return HttpResponse('Email is required.', status=400)
+        
+        try:
+            register_entry = register_data.objects.get(email=email)
+        except register_data.DoesNotExist:
+            messages.error(request, 'User not found in the Register table!!! Please Register or login')
+            return redirect('checkout')
+
+        if bill_address.objects.filter(email=email).exists():
+            messages.error(request, 'This email is already used! Please try with another email.')
+            return redirect('checkout')
+
+        detail = bill_address(
+            country=country, first_name=first_name, last_name=last_name,
+            address=address, street=street, state=state, zip=zip, email=email, phone=phone, ordernote=ordernote)
         detail.save()
+
+        if ship_address.objects.filter(email=email).exists():
+            messages.error(request, 'This email is already used! Please try with another email.')
+            return redirect('checkout')
+
+        ship_detail = ship_address(
+            country=country, first_name=first_name, last_name=last_name,
+            address=address, street=street, state=state, zip=zip, email=email, phone=phone, ordernote=ordernote)
+        ship_detail.save()
+
         return redirect('order_view')
-    return render(request,'checkout.html')
+    return render(request, 'checkout.html')
 
     
 def order_view(request):
@@ -178,29 +193,36 @@ def register_user(request):
         email = request.POST['email']
         password = request.POST['password']
         cpassword = request.POST['cpassword']
-        if email:
-            return HttpResponse('This email is already registered')
-        else:
-            user = registeration(username=username,email=email,password=password,cpassword=cpassword)
-            user.save()
+        # if email:
+        #     return HttpResponse('This email is already registered')
+        # else:
+        user = register_data(username=username,email=email,password=password,cpassword=cpassword)
+        user.save()
         
-            return redirect('login')
-    return render(request,'signin.html')
+        return redirect('login')
+    return render(request,'register.html')
+
 
 def login_user(request):
+    print('function called')
     if request.method == 'POST':
+        print('received request')
         email = request.POST.get('email').strip()
         password = request.POST.get('password').strip()
-        
-        log = registeration.objects.filter(email=email).first()
+        print('......')
+        log = register_data.objects.filter(email=email).first()
         
         if log:
+            print('log')
             if password == log.password.strip():
-                return redirect('/')
+                return redirect('cart_view')
             else:
-                return HttpResponse('Invalid Email or Password')
+                messages.error(request, 'Invalid Email or Password')
+                return redirect('login')
         else:
-            return HttpResponse('Invalid Email or Password')
+            messages.error(request, 'Invalid Email or Password')
+            return redirect('login')
     else:
         return render(request, 'login.html')
+
         

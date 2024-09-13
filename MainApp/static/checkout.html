@@ -81,124 +81,102 @@
 		<div class="container">
 			<div class="row mb-5">
 				<div class="col-md-12">
-					<div class="border p-4 rounded" role="alert">
-						Returning customer? <a href="
+					<div class="border p-4 rounded" role="alert"> <a href="
 						{% url 'login' %}">Click here</a> to login
 					</div>
 				</div>
 			</div>
+			{% if messages %}
+			{% for message in messages %}
+			<p style="color:red;">{{ message }}</p>
+			{% endfor %}
+			{% endif %}
 			<div class="row">
 				<!-- <div class="col-md-6 mb-5 mb-md-0"> -->
-					<h2 class="h3 mb-3 text-black">Billing Details</h2>
-					<div class="p-3 p-lg-5 border bg-white">
-						
-						<form action="{% url 'checkout' %}" method="POST">
-							{% csrf_token %}
-							<div class="form-group">
-								<label for="c_country" class="text-black">Country <span
+				<h2 class="h3 mb-3 text-black">Billing Details</h2>
+				<div class="p-3 p-lg-5 border bg-white">
+
+					<form action="{% url 'checkout' %}" method="POST">
+						{% csrf_token %}
+						<div class="form-group">
+							<label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
+							<select id="c_country" class="form-control" name="country" required>
+								<option value="1">Select a country</option>
+								<option value="Bangladesh">Bangladesh</option>
+								<option value="Algeria">Algeria</option>
+								<option value="Afghanistan">Afghanistan</option>
+								<option value="Mexico">Mexico</option>
+								<option value="Albania">Albania</option>
+								<option value="New Zealand">New Zealand</option>
+								<option value="Colombia">Colombia</option>
+								<option value="Korea">Korea</option>
+								<option value="Qatar">Qatar</option>
+								<option value="India">India</option>
+								<option value="Egypt">Egypt</option>
+								<option value="France">France</option>
+								<option value="Japan">Japan</option>
+								<option value="Germany">Germany</option>
+								<option value="Iceland">Iceland</option>
+								<option value="Australia">Australia</option>
+
+							</select>
+						</div>
+						<div class="form-group row">
+							<div class="col-md-6">
+								<label for="c_fname" class="text-black">First Name <span
 										class="text-danger">*</span></label>
-								<select id="c_country" class="form-control" name="country" required>
-									<option value="1">Select a country</option>
-									<option value="Bangladesh">Bangladesh</option>
-									<option value="Algeria">Algeria</option>
-									<option value="Afghanistan">Afghanistan</option>
-									<option value="Mexico">Mexico</option>
-									<option value="Albania">Albania</option>
-									<option value="New Zealand">New Zealand</option>
-									<option value="Colombia">Colombia</option>
-									<option value="Korea">Korea</option>
-									<option value="Qatar">Qatar</option>
-									<option value="India">India</option>
-									<option value="Egypt">Egypt</option>
-									<option value="France">France</option>
-									<option value="Japan">Japan</option>
-									<option value="Germany">Germany</option>
-									<option value="Iceland">Iceland</option>
-									<option value="Australia">Australia</option>
-
-								</select>
+								<input type="text" class="form-control" id="c_fname" name="first_name" required>
 							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<label for="c_fname" class="text-black">First Name <span
-											class="text-danger">*</span></label>
-									<input type="text" class="form-control" id="c_fname" name="first_name" required>
-								</div>
-								<div class="col-md-6">
-									<label for="c_lname" class="text-black">Last Name <span
-											class="text-danger">*</span></label>
-									<input type="text" class="form-control" id="c_lname" name="last_name" required>
-								</div>
+							<div class="col-md-6">
+								<label for="c_lname" class="text-black">Last Name <span
+										class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="c_lname" name="last_name" required>
 							</div>
+						</div>
 
-							<div class="form-group row">
-								<div class="col-md-12">
-									<label for="c_address" class="text-black">Address <span
-											class="text-danger">*</span></label>
-									<input type="text" class="form-control" id="" name="address"
-										placeholder="Apartment, suite, unit etc." required>
-								</div>
+						<div class="form-group row">
+							<div class="col-md-12">
+								<label for="c_address" class="text-black">Address <span
+										class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="" name="address"
+									placeholder="Apartment, suite, unit etc." required>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<div class="col-md-12">
+								<label for="c_address" class="text-black">Street <span
+										class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="" name="street" required>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<div class="col-md-6">
+								<label for="c_state_country" class="text-black">State <span
+										class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="c_state_country" name="state" required>
 							</div>
 
-							<div class="form-group row">
-								<div class="col-md-12">
-									<label for="c_address" class="text-black">Street <span
-											class="text-danger">*</span></label>
-									<input type="text" class="form-control" id="" name="street" required>
-								</div>
+							<div class="col-md-6">
+								<label for="c_postal_zip" class="text-black">Posta / Zip <span
+										class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="c_postal_zip" name="zip" required>
 							</div>
+						</div>
 
-							<div class="form-group row">
-								<div class="col-md-6">
-									<label for="c_state_country" class="text-black">State <span
-											class="text-danger">*</span></label>
-									<input type="text" class="form-control" id="c_state_country" name="state" required>
-								</div>
-
-								<div class="col-md-6">
-									<label for="c_postal_zip" class="text-black">Posta / Zip <span
-											class="text-danger">*</span></label>
-									<input type="text" class="form-control" id="c_postal_zip" name="zip" required>
-								</div>
+						<div class="form-group row mb-4">
+							<div class="col-md-6">
+								<label for="c_email_address" class="text-black">Email Address <span
+										class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="c_email_address" name="email" required>
 							</div>
-
-							<div class="form-group row mb-4">
-								<div class="col-md-6">
-									<label for="c_email_address" class="text-black">Email Address <span
-											class="text-danger">*</span></label>
-									<input type="text" class="form-control" id="c_email_address" name="email" required>
-								</div>
-								<div class="col-md-6">
-									<label for="c_phone" class="text-black">Phone <span
-											class="text-danger">*</span></label>
-									<input type="text" class="form-control" id="c_phone" name="phone"
-										placeholder="Phone Number" required>
-								</div>
+							<div class="col-md-6">
+								<label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+								<input type="text" class="form-control" id="c_phone" name="phone"
+									placeholder="Phone Number" required>
 							</div>
-							<div class="form-group mb-2">
-								<button class="btn btn-black btn-lg py-3 btn-block">
-									Save</button>
-							</div>
-						</form>
-
-						<!-- <div class="form-group">
-							<label for="c_create_account" class="text-black" data-bs-toggle="collapse"
-								href="#create_an_account" role="button" aria-expanded="false"
-								aria-controls="create_an_account"><input type="checkbox" value="1"
-									id="c_create_account"> Create an account?</label>
-							<div class="collapse" id="create_an_account">
-								<div class="py-2 mb-4">
-									<p class="mb-3">Create an account by entering the information below. If you are a
-										already our customer please login at the top of the page.</p>
-									<div class="form-group">
-										<label for="c_account_password" class="text-black">Account Password</label>
-										<input type="email" class="form-control" id="c_account_password"
-											name="c_account_password" placeholder="">
-									</div>
-								</div>
-							</div>
-						</div> -->
-
+						</div>
 
 						<div class="form-group">
 							<label for="c_ship_different_address" class="text-black" data-bs-toggle="collapse"
@@ -209,9 +187,8 @@
 								<div class="py-2">
 
 									<div class="form-group">
-										<label for="c_diff_country" class="text-black">Country <span
-												class="text-danger">*</span></label>
-										<select id="c_diff_country" class="form-control">
+										<label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
+										<select id="c_country" class="form-control" name="country" required>
 											<option value="1">Select a country</option>
 											<option value="Bangladesh">Bangladesh</option>
 											<option value="Algeria">Algeria</option>
@@ -228,72 +205,67 @@
 											<option value="Japan">Japan</option>
 											<option value="Germany">Germany</option>
 											<option value="Iceland">Iceland</option>
-											<option value="Australlia">Australlia</option>
+											<option value="Australia">Australia</option>
+			
 										</select>
 									</div>
-
-
 									<div class="form-group row">
 										<div class="col-md-6">
-											<label for="c_diff_fname" class="text-black">First Name <span
+											<label for="c_fname" class="text-black">First Name <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_diff_fname"
-												name="c_diff_fname">
+											<input type="text" class="form-control" id="c_fname" name="first_name" required>
 										</div>
 										<div class="col-md-6">
-											<label for="c_diff_lname" class="text-black">Last Name <span
+											<label for="c_lname" class="text-black">Last Name <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_diff_lname"
-												name="c_diff_lname">
+											<input type="text" class="form-control" id="c_lname" name="last_name" required>
 										</div>
 									</div>
-
-									<div class="form-group row  mb-3">
+			
+									<div class="form-group row">
 										<div class="col-md-12">
-											<label for="c_diff_address" class="text-black">Address <span
+											<label for="c_address" class="text-black">Address <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_diff_address"
-												name="c_diff_address" placeholder="Street address">
+											<input type="text" class="form-control" id="" name="address"
+												placeholder="Apartment, suite, unit etc." required>
 										</div>
 									</div>
-
-									<div class="form-group">
-										<input type="text" class="form-control"
-											placeholder="Apartment, suite, unit etc. (optional)">
+			
+									<div class="form-group row">
+										<div class="col-md-12">
+											<label for="c_address" class="text-black">Street <span
+													class="text-danger">*</span></label>
+											<input type="text" class="form-control" id="" name="street" required>
+										</div>
 									</div>
-
+			
 									<div class="form-group row">
 										<div class="col-md-6">
-											<label for="c_diff_state_country" class="text-black">State / Country <span
+											<label for="c_state_country" class="text-black">State <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_diff_state_country"
-												name="c_diff_state_country">
+											<input type="text" class="form-control" id="c_state_country" name="state" required>
 										</div>
+			
 										<div class="col-md-6">
-											<label for="c_diff_postal_zip" class="text-black">Posta / Zip <span
+											<label for="c_postal_zip" class="text-black">Posta / Zip <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_diff_postal_zip"
-												name="c_diff_postal_zip">
+											<input type="text" class="form-control" id="c_postal_zip" name="zip" required>
 										</div>
 									</div>
-
-									<div class="form-group row mb-5">
+			
+									<div class="form-group row mb-4">
 										<div class="col-md-6">
-											<label for="c_diff_email_address" class="text-black">Email Address <span
+											<label for="c_email_address" class="text-black">Email Address <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_diff_email_address"
-												name="c_diff_email_address">
+											<input type="text" class="form-control" id="c_email_address" name="email" required>
 										</div>
 										<div class="col-md-6">
-											<label for="c_diff_phone" class="text-black">Phone <span
-													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_diff_phone"
-												name="c_diff_phone" placeholder="Phone Number">
+											<label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+											<input type="text" class="form-control" id="c_phone" name="phone"
+												placeholder="Phone Number" required>
 										</div>
 									</div>
-
 								</div>
-
 							</div>
 						</div>
 
@@ -302,12 +274,17 @@
 							<textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"
 								placeholder="Write your notes here..."></textarea>
 						</div>
+						<div class="form-group mt-3">
+							<button class="btn btn-black btn-lg py-3 btn-block">
+								Save</button>
+						</div>
+					</form>
 
-					</div>
 				</div>
-				<div class="col-md-6">
+			</div>
+			<div class="col-md-6">
 
-						<!-- <div class="row mb-5">
+				<!-- <div class="row mb-5">
 							<div class="col-md-12">
 								<h2 class="h3 mb-3 text-black">Coupon Code</h2>
 								<div class="p-3 p-lg-5 border bg-white">
@@ -326,10 +303,10 @@
 							</div>
 						</div> -->
 
-				</div>
 			</div>
-			<!-- </form> -->
 		</div>
+		<!-- </form> -->
+	</div>
 	</div>
 
 	<!-- Start Footer Section -->

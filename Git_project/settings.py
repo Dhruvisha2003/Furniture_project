@@ -117,9 +117,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-LOGIN_URL = '/login/'  # URL to redirect users if they are not logged in
-LOGIN_REDIRECT_URL = '/checkout/'  # URL to redirect users after logging in
+STATIC_URL = '/static/'
+# LOGIN_URL = '/login/'  # URL to redirect users if they are not logged in
+# LOGIN_REDIRECT_URL = '/checkout/'  # URL to redirect users after logging in
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
