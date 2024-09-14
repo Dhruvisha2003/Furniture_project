@@ -60,7 +60,6 @@ class bill_address(models.Model):
     zip = models.CharField(max_length=6)
     email = models.CharField(max_length=50)
     phone = models.CharField(max_length=10)
-    ordernotes = models.CharField(max_length=500,null=True,blank=True)
 
 class ship_address(models.Model):
     country = models.CharField(max_length=50)

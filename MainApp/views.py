@@ -100,26 +100,26 @@ def checkOut(request):
         ordernote = request.POST.get('ordernote')
         
         if not email:
-            return HttpResponse('Email is required.', status=400)
+            return HttpResponse('Email is required.')
         
-        try:
-            register_entry = register_data.objects.get(email=email)
-        except register_data.DoesNotExist:
+        if not register_data.objects.filter(email=email).exists():
             messages.error(request, 'User not found in the Register table!!! Please Register or login')
             return redirect('checkout')
 
-        if bill_address.objects.filter(email=email).exists():
+        # try:
+        #     register_entry = register_data.objects.get(email=email)
+        # except register_data.DoesNotExist:
+        #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
+        #     return redirect('checkout')
+
+        if bill_address.objects.filter(email=email).exists() or ship_address.objects.filter(email=email).exists():
             messages.error(request, 'This email is already used! Please try with another email.')
             return redirect('checkout')
 
         detail = bill_address(
             country=country, first_name=first_name, last_name=last_name,
-            address=address, street=street, state=state, zip=zip, email=email, phone=phone, ordernote=ordernote)
+            address=address, street=street, state=state, zip=zip, email=email, phone=phone)
         detail.save()
-
-        if ship_address.objects.filter(email=email).exists():
-            messages.error(request, 'This email is already used! Please try with another email.')
-            return redirect('checkout')
 
         ship_detail = ship_address(
             country=country, first_name=first_name, last_name=last_name,
