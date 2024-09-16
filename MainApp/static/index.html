@@ -49,11 +49,16 @@
 						<li><a class="nav-link" href="{% url 'services' %}">Services</a></li>
 						<li><a class="nav-link" href="{% url 'Ourblog' %}">Blog</a></li>
 						<li><a class="nav-link" href="{% url 'contactUs' %}">Contact us</a></li>
+						
 					</ul>
 				</ul>
 
 				<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+					{% if user_id %}
+						<li><a class="nav-link" href="">{{user_id}}</a></li>
+					{% else %}
 					<li><a class="nav-link" href="{% url 'login' %}"><img src="../static/images/user.svg"></a></li>
+					{% endif %}
 					<li><a class="nav-link" href="{% url 'cart_view' %}"><img src="../static/images/cart.svg"></a></li>
 				</ul>
 			</div>

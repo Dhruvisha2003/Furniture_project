@@ -19,11 +19,13 @@ from .models import ship_address
 # Create your views here.
 
 def index(request):
+    user_id = request.session.get('user_id')
+    print(user_id)
     menus = Menu.objects.all()
     products_list = products.objects.all()
     product_detail = pdetails.objects.all()
     blog_detail = blogs.objects.all()
-    return render(request, 'index.html',{'menus':menus,'products_list':products_list,'product_detail':product_detail,'blog_detail':blog_detail})
+    return render(request, 'index.html',{'menus':menus,'products_list':products_list,'product_detail':product_detail,'blog_detail':blog_detail,'user_id':user_id})
 
 def shopPage(request):
     shop_detail = shop.objects.all()
@@ -209,20 +211,29 @@ def login_user(request):
         print('received request')
         email = request.POST.get('email').strip()
         password = request.POST.get('password').strip()
-        print('......')
-        log = register_data.objects.filter(email=email).first()
-        
-        if log:
-            print('log')
+
+        print('Function called')
+        print('Received request')
+        print('Email:', email)
+        print('Password:', password)
+
+        try:
+            log = register_data.objects.get(email=email)
+            print('ID:',log.id)
+            request.session['id']=log.id
+            # print("Session==",Sessionn)
+            if request.session['id']:
+                print('yes')
+                return redirect('/')
             if password == log.password.strip():
-                return redirect('cart_view')
+                    return redirect('/')
             else:
                 messages.error(request, 'Invalid Email or Password')
                 return redirect('login')
-        else:
+        except register_data.DoesNotExist:
             messages.error(request, 'Invalid Email or Password')
-            return redirect('login')
-    else:
         return render(request, 'login.html')
+    return render(request, 'login.html')
 
-        
+def logout(request):
+    return redirect('/')        
