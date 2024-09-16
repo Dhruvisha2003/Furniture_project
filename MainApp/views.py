@@ -19,8 +19,9 @@ from .models import ship_address
 # Create your views here.
 
 def index(request):
-    user_id = request.session.get('user_id')
-    print(user_id)
+    user_id = request.session.get('id')
+    # if user_id:
+        # print(f'Logged in user ID: {user_id}')
     menus = Menu.objects.all()
     products_list = products.objects.all()
     product_detail = pdetails.objects.all()
@@ -28,41 +29,62 @@ def index(request):
     return render(request, 'index.html',{'menus':menus,'products_list':products_list,'product_detail':product_detail,'blog_detail':blog_detail,'user_id':user_id})
 
 def shopPage(request):
+    user_id = request.session.get('id')
     shop_detail = shop.objects.all()
-    return render(request,'shop.html',{'shop_detail':shop_detail})
+    return render(request,'shop.html',{'shop_detail':shop_detail,'user_id':user_id})
 
 def aboutus(request):
+    user_id = request.session.get('id')
     about_us = About.objects.all()
-    return render(request,'about.html',{'about_us':about_us})
+    return render(request,'about.html',{'about_us':about_us,'user_id':user_id})
 
 def Blog(request):
+    user_id = request.session.get('id')
     blog_detail = blog_list.objects.all()
-    return render(request,'blog.html',{'blog_detail':blog_detail})
+    return render(request,'blog.html',{'blog_detail':blog_detail,'user_id':user_id})
 
 def Ourservice(request):
+    user_id = request.session.get('id')
     services = products.objects.all()
-    return render(request,'services.html',{'services':services})
+    return render(request,'services.html',{'services':services,'user_id':user_id})
 
 def contact(request):
-    return render(request,'contact.html')
+    user_id = request.session.get('id')
+    return render(request,'contact.html',{'user_id':user_id})
 
 def cart_view(request):
-    myid = request.GET.get('cartid')
+    user_id = request.session.get('id')  
+    myid = request.GET.get('cartid')  
+
     if myid:
-        product = shop.objects.filter(id=myid).first()
+        product = shop.objects.filter(id=myid).first()  # Get the product with the given ID
         if product:
-            image = product.image
-            name = product.name
-            price = product.price
-            quantity = 1 
-            total = price * quantity
-            cart_item = addCart(image=image, name=name, price=price, quantity=quantity, total=total)
-            cart_item.save()
+            cart_item = addCart.objects.filter(name=product.name).first()  # Adjust based on your model
+
+            if cart_item:
+                cart_item.quantity += 1
+                cart_item.total = cart_item.price * cart_item.quantity
+                cart_item.save()
+            else:
+                image = product.image
+                name = product.name
+                price = product.price
+                quantity = 1 
+                total = price * quantity
+                cart_item = addCart(image=image, name=name, price=price, quantity=quantity, total=total)
+                cart_item.save()
+
     cart_items = addCart.objects.all()
+    
     subtotal = sum(i.total for i in cart_items)
     total = subtotal
- 
-    return render(request,'cart.html',{"cart_items":cart_items,'subtotal':subtotal,'total':total})
+    
+    return render(request, 'cart.html', {
+        "cart_items": cart_items,
+        'subtotal': subtotal,
+        'total': total,
+        'user_id': user_id
+    })
 
 def delcart(request):
     cartid = request.GET.get('cartid')
@@ -89,6 +111,7 @@ def update_cart_quantity(request):
     return redirect('cart_view')
 
 def checkOut(request):
+    user_id = request.session.get('id')
     if request.method == 'POST':
         email = request.POST.get('email')
         country = request.POST.get('country')
@@ -129,7 +152,7 @@ def checkOut(request):
         ship_detail.save()
 
         return redirect('order_view')
-    return render(request, 'checkout.html')
+    return render(request, 'checkout.html',{'user_id':user_id})
 
     
 def order_view(request):
@@ -140,6 +163,7 @@ def order_view(request):
     return render(request,'order.html',{"alll":alll,"subtotal":subtotal,"total":total})
 
 def payment_view(request):
+    user_id = request.session.get('id')
     print('call')
     if request.method == 'POST':
         payment_method = request.POST.get('payment_method')
@@ -183,13 +207,15 @@ def payment_view(request):
         else:
             return render(request, 'order.html', {'error': 'Unknown payment method selected.'})
 
-    return render(request, 'order.html')
+    return render(request, 'order.html',{'user_id':user_id})
 
 
 def thankyou(request):
-    return render(request,'thankyou.html')
+    user_id = request.session.get('id')
+    return render(request,'thankyou.html',{'user_id':user_id})
 
 def register_user(request):
+    user_id = request.session.get('id')
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
@@ -202,7 +228,7 @@ def register_user(request):
         user.save()
         
         return redirect('login')
-    return render(request,'register.html')
+    return render(request,'register.html',{'user_id':user_id})
 
 
 def login_user(request):
@@ -212,28 +238,29 @@ def login_user(request):
         email = request.POST.get('email').strip()
         password = request.POST.get('password').strip()
 
-        print('Function called')
-        print('Received request')
         print('Email:', email)
         print('Password:', password)
 
         try:
             log = register_data.objects.get(email=email)
-            print('ID:',log.id)
-            request.session['id']=log.id
-            # print("Session==",Sessionn)
-            if request.session['id']:
-                print('yes')
-                return redirect('/')
+            print('ID:', log.id)
+
             if password == log.password.strip():
-                    return redirect('/')
+                request.session['id'] = log.id
+                print('Login successful, session set')
+                return redirect('/')
             else:
+                print('Invalid password')
                 messages.error(request, 'Invalid Email or Password')
                 return redirect('login')
         except register_data.DoesNotExist:
+            print('User does not exist')
             messages.error(request, 'Invalid Email or Password')
-        return render(request, 'login.html')
+            return redirect('login')
+
     return render(request, 'login.html')
 
 def logout(request):
+    del request.session['id']
+    print('deleted')
     return redirect('/')        
