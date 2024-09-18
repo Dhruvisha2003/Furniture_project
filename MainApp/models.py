@@ -61,13 +61,10 @@ class bill_address(models.Model):
     email = models.CharField(max_length=50)
     phone = models.CharField(max_length=10)
 
-class ship_address(models.Model):
-    country = models.CharField(max_length=50)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    address = models.CharField(max_length=300)
-    street = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)
-    zip = models.CharField(max_length=6)
-    email = models.CharField(max_length=50)
-    phone = models.CharField(max_length=10)
+class ship_add(models.Model):
+    ship_country = models.CharField(max_length=50)
+    ship_address = models.CharField(max_length=300)
+    ship_street = models.CharField(max_length=50)
+    ship_state = models.CharField(max_length=50)
+    ship_zip = models.CharField(max_length=6)
+    ship_phone = models.CharField(max_length=10)

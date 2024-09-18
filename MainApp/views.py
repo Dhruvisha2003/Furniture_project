@@ -1,7 +1,7 @@
 from django.shortcuts import *
 from django.http import HttpResponse
 from django.contrib import messages
-# from django.contrib.auth.decorators import login_required
+# from django.core.cache import cache
 from .models import Menu
 from .models import products
 from .models import pdetails
@@ -12,7 +12,7 @@ from .models import blog_list
 from .models import register_data
 from .models import addCart
 from .models import bill_address
-from .models import ship_address
+from .models import ship_add
 
 # from .models import order
 
@@ -30,55 +30,86 @@ def index(request):
 
 def shopPage(request):
     user_id = request.session.get('id')
-    shop_detail = shop.objects.all()
-    return render(request,'shop.html',{'shop_detail':shop_detail,'user_id':user_id})
+    if not user_id:
+        messages.error(request, 'User not found in the Register table!!! Please Register or login')
+        return redirect('login')
+    else:
+        shop_detail = shop.objects.all()
+        return render(request,'shop.html',{'shop_detail':shop_detail,'user_id':user_id})
 
 def aboutus(request):
     user_id = request.session.get('id')
-    about_us = About.objects.all()
-    return render(request,'about.html',{'about_us':about_us,'user_id':user_id})
+    if not user_id:
+        messages.error(request, 'User not found in the Register table!!! Please Register or login')
+        return redirect('login')
+    else:
+        about_us = About.objects.all()
+        return render(request,'about.html',{'about_us':about_us,'user_id':user_id})
 
 def Blog(request):
     user_id = request.session.get('id')
-    blog_detail = blog_list.objects.all()
-    return render(request,'blog.html',{'blog_detail':blog_detail,'user_id':user_id})
+    if not user_id:
+        messages.error(request, 'User not found in the Register table!!! Please Register or login')
+        return redirect('login')
+    else:
+        blog_detail = blog_list.objects.all()
+        return render(request,'blog.html',{'blog_detail':blog_detail,'user_id':user_id})
 
 def Ourservice(request):
     user_id = request.session.get('id')
-    services = products.objects.all()
-    return render(request,'services.html',{'services':services,'user_id':user_id})
+    if not user_id:
+        messages.error(request, 'User not found in the Register table!!! Please Register or login')
+        return redirect('login')
+    else:
+        services = products.objects.all()
+        return render(request,'services.html',{'services':services,'user_id':user_id})
 
 def contact(request):
     user_id = request.session.get('id')
-    return render(request,'contact.html',{'user_id':user_id})
+    if not user_id:
+        messages.error(request, 'User not found in the Register table!!! Please Register or login')
+        return redirect('login')
+    else:
+        return render(request,'contact.html',{'user_id':user_id})
+
 
 def cart_view(request):
-    user_id = request.session.get('id')  
+    user_id = request.session.get('id')
+    if not user_id:
+        messages.error(request, 'User not found in the Register table! Please register or login.')
+        return redirect('login')
+
     myid = request.GET.get('cartid')  
 
     if myid:
-        product = shop.objects.filter(id=myid).first()  # Get the product with the given ID
+        product = shop.objects.filter(id=myid).first()
         if product:
-            cart_item = addCart.objects.filter(name=product.name).first()  # Adjust based on your model
+            cart_item = addCart.objects.filter(name=product.name).first()
 
             if cart_item:
                 cart_item.quantity += 1
                 cart_item.total = cart_item.price * cart_item.quantity
-                cart_item.save()
+                cart_item.save()  
+                messages.success(request, f'Increased quantity of {product.name} in the cart.')
             else:
-                image = product.image
-                name = product.name
-                price = product.price
-                quantity = 1 
-                total = price * quantity
-                cart_item = addCart(image=image, name=name, price=price, quantity=quantity, total=total)
-                cart_item.save()
+                cart_item = addCart(
+                    image=product.image,
+                    name=product.name,
+                    price=product.price,
+                    quantity=1,
+                    total=product.price  
+                )
+                cart_item.save()  
+                messages.success(request, f'Added {product.name} to the cart.')
+
+        else:
+            messages.error(request, 'Product not found.')
 
     cart_items = addCart.objects.all()
-    
-    subtotal = sum(i.total for i in cart_items)
-    total = subtotal
-    
+
+    subtotal = sum(item.total for item in cart_items)
+    total = subtotal 
+
     return render(request, 'cart.html', {
         "cart_items": cart_items,
         'subtotal': subtotal,
@@ -112,49 +143,54 @@ def update_cart_quantity(request):
 
 def checkOut(request):
     user_id = request.session.get('id')
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        country = request.POST.get('country')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        address = request.POST.get('address')
-        street = request.POST.get('street')
-        state = request.POST.get('state')
-        zip = request.POST.get('zip')
-        phone = request.POST.get('phone')
-        ordernote = request.POST.get('ordernote')
+    if not user_id:
+        return redirect('login')
+    else:
+        if request.method == 'POST':
+            email = request.POST.get('email')
+            country = request.POST.get('country')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            address = request.POST.get('address')
+            street = request.POST.get('street')
+            state = request.POST.get('state')
+            zip = request.POST.get('zip')
+            phone = request.POST.get('phone')
         
-        if not email:
-            return HttpResponse('Email is required.')
-        
-        if not register_data.objects.filter(email=email).exists():
-            messages.error(request, 'User not found in the Register table!!! Please Register or login')
-            return redirect('checkout')
+            ship_country = request.POST.get('ship_country')
+            ship_address = request.POST.get('ship_address')
+            ship_street = request.POST.get('ship_street')
+            ship_state = request.POST.get('ship_state')
+            ship_zip_code = request.POST.get('ship_zip')
+            ship_phone = request.POST.get('ship_phone')
 
-        # try:
-        #     register_entry = register_data.objects.get(email=email)
-        # except register_data.DoesNotExist:
-        #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
-        #     return redirect('checkout')
+            if not email:
+                return HttpResponse('Email is required.')
 
-        if bill_address.objects.filter(email=email).exists() or ship_address.objects.filter(email=email).exists():
-            messages.error(request, 'This email is already used! Please try with another email.')
-            return redirect('checkout')
+            if not register_data.objects.filter(email=email).exists():
+                messages.error(request, 'User not found in the Register table!!! Please Register or login')
+                return redirect('checkout')
+            
+            if bill_address.objects.filter(email=email).exists() or ship_add.objects.filter (email=email).exists():
+                messages.error(request, 'This email is already used! Please try with another email.')
+                return redirect('checkout')
 
-        detail = bill_address(
-            country=country, first_name=first_name, last_name=last_name,
-            address=address, street=street, state=state, zip=zip, email=email, phone=phone)
-        detail.save()
-
-        ship_detail = ship_address(
-            country=country, first_name=first_name, last_name=last_name,
-            address=address, street=street, state=state, zip=zip, email=email, phone=phone)
-        ship_detail.save()
-
-        return redirect('order_view')
-    return render(request, 'checkout.html',{'user_id':user_id})
-
+            detail = bill_address(
+                country=country, first_name=first_name, last_name=last_name,
+                address=address, street=street, state=state, zip=zip, email=email, phone=phone) 
+            
+            detail.save()
+            
+            if ship_country and ship_address and ship_street and ship_state and ship_zip_code:
+                ship_detail = ship_address(
+                country=ship_country, address=ship_address, street=ship_street, 
+                state=ship_state, zip=ship_zip_code, email=email, phone=ship_phone
+                )
+                ship_detail.save()
     
+            return redirect('order_view')
+        return render(request, 'checkout.html',{'user_id':user_id})
+
 def order_view(request):
     print('orders')
     alll=addCart.objects.all()
@@ -164,50 +200,52 @@ def order_view(request):
 
 def payment_view(request):
     user_id = request.session.get('id')
-    print('call')
-    if request.method == 'POST':
-        payment_method = request.POST.get('payment_method')
-        
-        if payment_method == 'creditdebit':
-            print('card')
-            cardnumber = request.POST.get('cardnumber')
-            cardholder = request.POST.get('cardholder')
-            expirydate = request.POST.get('expirydate')
-          
-            if cardnumber and cardholder and expirydate:
-                print('hello')
-                addCart.objects.all().delete()
-                return redirect('/thanks/')
-            else:
-                return render(request, 'order.html', {'error': 'Please fill out all required fields for credit/debit card.'})
-        
-        elif payment_method == 'netbanking':
-            print('netbanking')
-            account_number = request.POST.get('account_number')
-            account_holder = request.POST.get('account_holder')
-            
-            if account_number and account_holder:
-                print('hello')
-                addCart.objects.all().delete()
-                return redirect('/thanks')
-            else:
-                return render(request, 'order.html', {'error': 'Please fill out all required fields for net banking.'})
-        
-        elif payment_method == 'UPI':
-            print('upi')
-            upi_id = request.POST.get('upi')
-            
-            if upi_id:
-                print('hello')
-                addCart.objects.all().delete()
-                return redirect('/thanks')
-            else:
-                return render(request, 'order.html', {'error': 'Please provide your UPI ID.'})
-        
-        else:
-            return render(request, 'order.html', {'error': 'Unknown payment method selected.'})
+    if not user_id:
+        return redirect('login')
+    else:
+        if request.method == 'POST':
+            payment_method = request.POST.get('payment_method')
 
-    return render(request, 'order.html',{'user_id':user_id})
+            if payment_method == 'creditdebit':
+                print('card')
+                cardnumber = request.POST.get('cardnumber')
+                cardholder = request.POST.get('cardholder')
+                expirydate = request.POST.get('expirydate')
+
+                if cardnumber and cardholder and expirydate:
+                    print('hello')
+                    addCart.objects.all().delete()
+                    return redirect('/thanks/')
+                else:
+                    return render(request, 'order.html', {'error': 'Please fill out all required    fields for credit/debit card.'})
+
+            elif payment_method == 'netbanking':
+                print('netbanking')
+                account_number = request.POST.get('account_number')
+                account_holder = request.POST.get('account_holder')
+
+                if account_number and account_holder:
+                    print('hello')
+                    addCart.objects.all().delete()
+                    return redirect('/thanks')
+                else:
+                    return render(request, 'order.html', {'error': 'Please fill out all required    fields for net banking.'})
+
+            elif payment_method == 'UPI':
+                print('upi')
+                upi_id = request.POST.get('upi')
+
+                if upi_id:
+                    print('hello')
+                    addCart.objects.all().delete()
+                    return redirect('/thanks')
+                else:
+                    return render(request, 'order.html', {'error': 'Please provide your UPI ID.'})
+
+            else:
+                return render(request, 'order.html', {'error': 'Unknown payment method selected.'})
+
+        return render(request, 'order.html',{'user_id':user_id})
 
 
 def thankyou(request):
@@ -262,5 +300,6 @@ def login_user(request):
 
 def logout(request):
     del request.session['id']
+    # cache.clear()
     print('deleted')
     return redirect('/')        

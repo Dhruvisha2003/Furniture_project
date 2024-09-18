@@ -53,7 +53,7 @@
 
 				<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 					{% if user_id %}
-						<li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+					<li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
 					{% else %}
 					<li><a class="nav-link" href="{% url 'login' %}"><img src="../static/images/user.svg"></a></li>
 					{% endif %}
@@ -88,55 +88,64 @@
 	<div class="untree_co-section before-footer-section">
 		<div class="container">
 			<div class="row mb-5">
-					<div class="site-blocks-table">
-						<table class="table">
-							<thead>
-								<tr>
-									<th class="product-thumbnail">Image</th>
-									<th class="product-name">Product</th>
-									<th class="product-price">Price</th>
-									<th class="product-quantity">Quantity</th>
-									<th class="product-total">Total</th>
-									<th class="product-remove">Remove</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% load static %}
-								{% for i in cart_items %}
-								<tr>
-									<td class="product-thumbnail">
-										<img src="{% static 'images/' %}{{ i.image }}" alt="Image" class="img-fluid">
-									</td>
-									<td class="product-name">
-										<h2 class="h5 text-black">{{i.name}}</h2>
-									</td>
-									<td>${{i.price}}</td>
-									<td>
-										<form action="{% url 'update_cart' %}" method="POST">
-											{% csrf_token %}
-											<input type="hidden" name="cartid" value="{{ i.id }}">
-											<div class="input-group mb-3 d-flex align-items-center justify-content-center quantity-container"
-												style="max-width: 120px; margin: 0 auto;">
-												<div class="input-group-prepend">
-													<button class="btn btn-outline-black decrease" type="submit" name="action" value="decrease">&minus;</button>
-												</div>
-												<input type="text" class="form-control text-center quantity-amount" value="{{ i.quantity }}" name="quantity" aria-label="Quantity">
-												<div class="input-group-append">
-													<button class="btn btn-outline-black increase" type="submit" name="action" value="increase">&plus;</button>
-												</div>
+				<div class="site-blocks-table">
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="product-thumbnail">Image</th>
+								<th class="product-name">Product</th>
+								<th class="product-price">Price</th>
+								<th class="product-quantity">Quantity</th>
+								<th class="product-total">Total</th>
+								<th class="product-remove">Remove</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% load static %}
+							{% for i in cart_items %}
+							<tr>
+								<td class="product-thumbnail">
+									<img src="{% static 'images/' %}{{ i.image }}" alt="Image" class="img-fluid">
+								</td>
+								<td class="product-name">
+									<h2 class="h5 text-black">{{i.name}}</h2>
+								</td>
+								<td>${{i.price}}</td>
+								<td>
+									<form action="{% url 'update_cart' %}" method="POST">
+										{% csrf_token %}
+										<input type="hidden" name="cartid" value="{{ i.id }}">
+										<div class="input-group mb-3 d-flex align-items-center justify-content-center quantity-container"
+											style="max-width: 120px; margin: 0 auto;">
+											<div class="input-group-prepend">
+												<button class="btn btn-outline-black decrease" type="submit"
+													name="action" value="decrease">&minus;</button>
 											</div>
-										</form>
-									</td>
-									<td class="total-price" name="total">${{i.total}}</td>
-									<td><a href="/delete_cart?cartid={{i.id}}" class="btn btn-black btn-sm">X</a></td>
-								</tr>
-								{% endfor %}
+											<input type="text" class="form-control text-center quantity-amount"
+												value="{{ i.quantity }}" name="quantity" aria-label="Quantity">
+											<div class="input-group-append">
+												<button class="btn btn-outline-black increase" type="submit"
+													name="action" value="increase">&plus;</button>
+											</div>
+										</div>
+									</form>
+								</td>
+								<td class="total-price" name="total">${{i.total}}</td>
+								<td><a href="/delete_cart?cartid={{i.id}}" class="btn btn-black btn-sm">X</a></td>
+							</tr>
+							{% endfor %}
 
-							</tbody>
-						</table>
-					</div>
+						</tbody>
+					</table>
+				</div>
 			</div>
-
+			{% if messages %}
+			<ul class="messages">
+				{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+					{% endfor %}
+			</ul>
+			{% endif %}
 			<div class="row">
 				<div class="col-md-6">
 					<div class="row mb-5">
@@ -144,7 +153,8 @@
 							<button class="btn btn-black btn-sm btn-block">Update Cart</button>
 						</div>
 						<div class="col-md-6">
-							<button class="btn btn-outline-black btn-sm btn-block"><a href="{% url 'shop' %}" class="continue">Continue Shopping</a></button>
+							<button class="btn btn-outline-black btn-sm btn-block"><a href="{% url 'shop' %}"
+									class="continue">Continue Shopping</a></button>
 						</div>
 					</div>
 					<div class="row">
@@ -186,8 +196,8 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<button class="btn btn-black btn-lg py-3 btn-block"
-								><a class="check" href="{% url 'checkout' %}">Proceed To Checkout</a></button>
+									<button class="btn btn-black btn-lg py-3 btn-block"><a class="check"
+											href="{% url 'checkout' %}">Proceed To Checkout</a></button>
 								</div>
 							</div>
 						</div>

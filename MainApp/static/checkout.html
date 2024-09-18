@@ -52,7 +52,7 @@
 
 				<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
 					{% if user_id %}
-						<li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+					<li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
 					{% else %}
 					<li><a class="nav-link" href="{% url 'login' %}"><img src="../static/images/user.svg"></a></li>
 					{% endif %}
@@ -191,8 +191,9 @@
 								<div class="py-2">
 
 									<div class="form-group">
-										<label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
-										<select id="c_country" class="form-control" name="country" required>
+										<label for="c_country" class="text-black">Country <span
+												class="text-danger">*</span></label>
+										<select id="c_country" class="form-control" name="ship_country" required>
 											<option value="1">Select a country</option>
 											<option value="Bangladesh">Bangladesh</option>
 											<option value="Algeria">Algeria</option>
@@ -210,63 +211,48 @@
 											<option value="Germany">Germany</option>
 											<option value="Iceland">Iceland</option>
 											<option value="Australia">Australia</option>
-			
+
 										</select>
 									</div>
-									<div class="form-group row">
-										<div class="col-md-6">
-											<label for="c_fname" class="text-black">First Name <span
-													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_fname" name="first_name" required>
-										</div>
-										<div class="col-md-6">
-											<label for="c_lname" class="text-black">Last Name <span
-													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_lname" name="last_name" required>
-										</div>
-									</div>
-			
+
 									<div class="form-group row">
 										<div class="col-md-12">
 											<label for="c_address" class="text-black">Address <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="" name="address"
+											<input type="text" class="form-control" id="" name="ship_address"
 												placeholder="Apartment, suite, unit etc." required>
 										</div>
 									</div>
-			
+
 									<div class="form-group row">
 										<div class="col-md-12">
 											<label for="c_address" class="text-black">Street <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="" name="street" required>
+											<input type="text" class="form-control" id="" name="ship_street" required>
 										</div>
 									</div>
-			
+
 									<div class="form-group row">
 										<div class="col-md-6">
 											<label for="c_state_country" class="text-black">State <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_state_country" name="state" required>
+											<input type="text" class="form-control" id="c_state_country" name="ship_state"
+												required>
 										</div>
-			
+
 										<div class="col-md-6">
 											<label for="c_postal_zip" class="text-black">Posta / Zip <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_postal_zip" name="zip" required>
+											<input type="text" class="form-control" id="c_postal_zip" name="ship_zip"
+												required>
 										</div>
 									</div>
-			
-									<div class="form-group row mb-4">
-										<div class="col-md-6">
-											<label for="c_email_address" class="text-black">Email Address <span
+
+									<div class="form-group row">
+										<div class="col-md-12">
+											<label for="c_phone" class="text-black">Phone <span
 													class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_email_address" name="email" required>
-										</div>
-										<div class="col-md-6">
-											<label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-											<input type="text" class="form-control" id="c_phone" name="phone"
-												placeholder="Phone Number" required>
+											<input type="text" class="form-control" id="c_phone" name="ship_phone" required>
 										</div>
 									</div>
 								</div>
