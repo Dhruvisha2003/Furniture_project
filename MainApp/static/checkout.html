@@ -181,7 +181,9 @@
 									placeholder="Phone Number" required>
 							</div>
 						</div>
-
+					</form>
+					<form action="{% url 'checkout' %}" method="POST">
+						{% csrf_token %}
 						<div class="form-group">
 							<label for="c_ship_different_address" class="text-black" data-bs-toggle="collapse"
 								href="#ship_different_address" role="button" aria-expanded="false"

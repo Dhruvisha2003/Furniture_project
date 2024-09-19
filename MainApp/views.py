@@ -1,7 +1,7 @@
 from django.shortcuts import *
 from django.http import HttpResponse
 from django.contrib import messages
-# from django.core.cache import cache
+from django.views.decorators.cache import cache_control
 from .models import Menu
 from .models import products
 from .models import pdetails
@@ -18,6 +18,7 @@ from .models import ship_add
 
 # Create your views here.
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def index(request):
     user_id = request.session.get('id')
     # if user_id:
@@ -28,42 +29,47 @@ def index(request):
     blog_detail = blogs.objects.all()
     return render(request, 'index.html',{'menus':menus,'products_list':products_list,'product_detail':product_detail,'blog_detail':blog_detail,'user_id':user_id})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def shopPage(request):
     user_id = request.session.get('id')
-    if not user_id:
-        messages.error(request, 'User not found in the Register table!!! Please Register or login')
-        return redirect('login')
-    else:
-        shop_detail = shop.objects.all()
-        return render(request,'shop.html',{'shop_detail':shop_detail,'user_id':user_id})
+    # if not user_id:
+    #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
+    #     return redirect('login')
+    # else:
+    shop_detail = shop.objects.all()
+    return render(request,'shop.html',{'shop_detail':shop_detail,'user_id':user_id})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def aboutus(request):
     user_id = request.session.get('id')
-    if not user_id:
-        messages.error(request, 'User not found in the Register table!!! Please Register or login')
-        return redirect('login')
-    else:
-        about_us = About.objects.all()
-        return render(request,'about.html',{'about_us':about_us,'user_id':user_id})
+    # if not user_id:
+    #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
+    #     return redirect('login')
+    # else:
+    about_us = About.objects.all()
+    return render(request,'about.html',{'about_us':about_us,'user_id':user_id})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Blog(request):
     user_id = request.session.get('id')
-    if not user_id:
-        messages.error(request, 'User not found in the Register table!!! Please Register or login')
-        return redirect('login')
-    else:
-        blog_detail = blog_list.objects.all()
-        return render(request,'blog.html',{'blog_detail':blog_detail,'user_id':user_id})
+    # if not user_id:
+    #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
+    #     return redirect('login')
+    # else:
+    blog_detail = blog_list.objects.all()
+    return render(request,'blog.html',{'blog_detail':blog_detail,'user_id':user_id})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Ourservice(request):
     user_id = request.session.get('id')
-    if not user_id:
-        messages.error(request, 'User not found in the Register table!!! Please Register or login')
-        return redirect('login')
-    else:
-        services = products.objects.all()
-        return render(request,'services.html',{'services':services,'user_id':user_id})
+    # if not user_id:
+    #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
+    #     return redirect('login')
+    # else:
+    services = products.objects.all()
+    return render(request,'services.html',{'services':services,'user_id':user_id})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def contact(request):
     user_id = request.session.get('id')
     if not user_id:
@@ -72,7 +78,7 @@ def contact(request):
     else:
         return render(request,'contact.html',{'user_id':user_id})
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def cart_view(request):
     user_id = request.session.get('id')
     if not user_id:
@@ -117,6 +123,7 @@ def cart_view(request):
         'user_id': user_id
     })
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def delcart(request):
     cartid = request.GET.get('cartid')
     if cartid:
@@ -125,6 +132,7 @@ def delcart(request):
             cart_item.delete()
     return redirect('cart_view')
     
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def update_cart_quantity(request):
     cartid = request.POST.get('cartid')
     action = request.POST.get('action')
@@ -141,6 +149,7 @@ def update_cart_quantity(request):
     print(all)
     return redirect('cart_view')
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def checkOut(request):
     user_id = request.session.get('id')
     if not user_id:
@@ -178,19 +187,19 @@ def checkOut(request):
             detail = bill_address(
                 country=country, first_name=first_name, last_name=last_name,
                 address=address, street=street, state=state, zip=zip, email=email, phone=phone) 
-            
             detail.save()
             
             if ship_country and ship_address and ship_street and ship_state and ship_zip_code:
-                ship_detail = ship_address(
-                country=ship_country, address=ship_address, street=ship_street, 
-                state=ship_state, zip=ship_zip_code, email=email, phone=ship_phone
+                ship_detail = ship_add(
+                ship_country=ship_country, ship_address=ship_address, ship_street=ship_street, 
+                ship_state=ship_state, ship_zip_code=ship_zip_code, ship_phone=ship_phone
                 )
                 ship_detail.save()
     
             return redirect('order_view')
         return render(request, 'checkout.html',{'user_id':user_id})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def order_view(request):
     print('orders')
     alll=addCart.objects.all()
@@ -198,6 +207,7 @@ def order_view(request):
     total = subtotal
     return render(request,'order.html',{"alll":alll,"subtotal":subtotal,"total":total})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def payment_view(request):
     user_id = request.session.get('id')
     if not user_id:
@@ -247,11 +257,12 @@ def payment_view(request):
 
         return render(request, 'order.html',{'user_id':user_id})
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def thankyou(request):
     user_id = request.session.get('id')
     return render(request,'thankyou.html',{'user_id':user_id})
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def register_user(request):
     user_id = request.session.get('id')
     if request.method == 'POST':
@@ -268,7 +279,7 @@ def register_user(request):
         return redirect('login')
     return render(request,'register.html',{'user_id':user_id})
 
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def login_user(request):
     print('function called')
     if request.method == 'POST':
@@ -298,8 +309,8 @@ def login_user(request):
 
     return render(request, 'login.html')
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def logout(request):
-    del request.session['id']
-    # cache.clear()
+    del request.session['id']    
     print('deleted')
     return redirect('/')        
