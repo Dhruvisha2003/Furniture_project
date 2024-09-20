@@ -44,7 +44,11 @@
                 </ul>
 
                 <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                    <li><a class="nav-link" href="{% url 'login' %}"><img src="../static/images/user.svg"></a></li>
+                    {% if user_id %}
+					<li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+					{% else %}
+					<li><a class="nav-link" href="{% url 'login' %}"><img src="../static/images/user.svg"></a></li>
+					{% endif %}
                     <li><a class="nav-link" href="{% url 'cart_view' %}"><img src="../static/images/cart.svg"></a></li>
                 </ul>
             </div>
@@ -71,7 +75,7 @@
     <!-- End Hero Section -->
 
 
-    <div class="row mb-5">
+    <div class="row">
         <div class="col-md-12">
             <!-- <h2 class="h3 mb-3 text-black">Your Order</h2>  -->
             <div class="p-3 p-lg-5 border bg-white">
@@ -134,114 +138,123 @@
                     <br>
                     <input class="btn btn-black btn-md py-3 btn-block" type="submit" value="Submit">
                 </form>
-                    <div class="row mt-5">
-                        <div class="col-md-6">
-                            <div class="row mb-5">
-                                <div class="col-md-6 mb-3 mb-md-0">
-                                    <button class="btn btn-black btn-sm btn-block "><a class="continue" href="{% url 'cart_view' %}">Update Cart</a></button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-outline-black btn-sm btn-block"><a href="{% url 'shop' %}"
-                                            class="continue">Continue Shopping</a></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-              
-               ccc
-
-                <!-- <form action="{% url 'payment' %}" method="POST">
-                    {% csrf_token %}
-                    <div class="border p-3 mb-5">
-                        <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse"
-                                href="#collapsepaypal" role="button" aria-expanded="false"
-                                aria-controls="collapsepaypal">Online Payment Options</a></h3>
-
-                        <div class="collapse" id="collapsepaypal">
-                            <div class="py-2">
-                                <p class="mb-0">
-
-                                <ul class="list-group">
-
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-1" type="radio"
-                                            name="payment_method" value="creditdebit" aria-label="..."
-                                            href="#collapseCard" data-bs-toggle="collapse">
-                                        <label>Credit or Debit Card</label>
-                                        <div class="collapse" id="collapseCard">
-                                            <div class="card card-body">
-                                                <label for="cardnumber" class="text-black">Card Number
-                                                    <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id=""
-                                                    name="cardnumber" required>
-                                                <label for="name" class="text-black">Card Holder Name
-                                                    <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id=""
-                                                    name="cardholder" required>
-                                                <label for="name" class="text-black">Expiry Date <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="date" name="expirydate" id="" required>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-1" type="radio"
-                                            name="payment_method" value="netbanking" aria-label="..."
-                                            href="#collapsenetbanking" data-bs-toggle="collapse">
-                                        <a>New Banking</a>
-                                        <div class="collapse" id="collapsenetbanking">
-                                            <div class="card card-body">
-                                                <label for="acnumber" class="text-black">Account Number
-                                                    <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id=""
-                                                    name="account_number">
-                                                <label for="name" class="text-black">Account Holder Name
-                                                    <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id=""
-                                                    name="account_holder">
-                                            </div>
-
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-1" type="radio"
-                                            name="payment_method" value="UPI" aria-label="..."
-                                            href="#collapseupi" data-bs-toggle="collapse">
-                                        <a>UPI</a>
-                                        <div class="collapse" id="collapseupi">
-                                            <div class="card card-body">
-                                                <label for="upi" class="text-black">UPI Id <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id=""
-                                                    name="upi">
-                                                <label for="upi" class="text-black">The UPI ID is in the
-                                                    format of name/phone number@bankname</label>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        <input class="form-check-input me-1" type="radio"
-                                            name="payment_method" value="wallet" aria-label="..."
-                                            disabled>
-                                        Wallet
-                                    </li>
-                                </ul>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-black btn-lg py-3 btn-block"><a href=""
-                                class="check">Proceed
-                                to Payment</a>
-                        </button>
-                    </div>
-                </form> -->
+                   
             </div>
         </div>
     </div>
 
+    <!-- Start Footer Section -->
+	<footer class="footer-section">
+		<div class="container relative">
+
+			<div class="sofa-img">
+				<img src="../static/images/sofa.png" alt="Image" class="img-fluid">
+			</div>
+
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="subscription-form">
+						<h3 class="d-flex align-items-center"><span class="me-1"><img
+									src="../static/images/envelope-outline.svg" alt="Image"
+									class="img-fluid"></span><span>Subscribe to Newsletter</span></h3>
+
+						<form action="#" class="row g-3">
+							<div class="col-auto">
+								<input type="text" class="form-control" placeholder="Enter your name">
+							</div>
+							<div class="col-auto">
+								<input type="email" class="form-control" placeholder="Enter your email">
+							</div>
+							<div class="col-auto">
+								<button class="btn btn-primary">
+									<span class="fa fa-paper-plane"></span>
+								</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="row g-5 mb-5">
+				<div class="col-lg-4">
+					<div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Furni<span>.</span></a></div>
+					<p class="mb-4">Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus
+						malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.
+						Pellentesque habitant</p>
+
+					<ul class="list-unstyled custom-social">
+						<li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+						<li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+						<li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+						<li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+					</ul>
+				</div>
+
+				<div class="col-lg-8">
+					<div class="row links-wrap">
+						<div class="col-6 col-sm-6 col-md-3">
+							<ul class="list-unstyled">
+								<li><a href="#">About us</a></li>
+								<li><a href="#">Services</a></li>
+								<li><a href="#">Blog</a></li>
+								<li><a href="#">Contact us</a></li>
+							</ul>
+						</div>
+
+						<div class="col-6 col-sm-6 col-md-3">
+							<ul class="list-unstyled">
+								<li><a href="#">Support</a></li>
+								<li><a href="#">Knowledge base</a></li>
+								<li><a href="#">Live chat</a></li>
+							</ul>
+						</div>
+
+						<div class="col-6 col-sm-6 col-md-3">
+							<ul class="list-unstyled">
+								<li><a href="#">Jobs</a></li>
+								<li><a href="#">Our team</a></li>
+								<li><a href="#">Leadership</a></li>
+								<li><a href="#">Privacy Policy</a></li>
+							</ul>
+						</div>
+
+						<div class="col-6 col-sm-6 col-md-3">
+							<ul class="list-unstyled">
+								<li><a href="#">Nordic Chair</a></li>
+								<li><a href="#">Kruzo Aero</a></li>
+								<li><a href="#">Ergonomic Chair</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="border-top copyright">
+				<div class="row pt-4">
+					<div class="col-lg-6">
+						<p class="mb-2 text-center text-lg-start">Copyright &copy;
+							<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash;
+							Designed with love by <a href="https://untree.co">Untree.co</a> Distributed By <a
+								hreff="https://themewagon.com">ThemeWagon</a>
+							<!-- License information: https://untree.co/license/ -->
+						</p>
+					</div>
+
+					<div class="col-lg-6 text-center text-lg-end">
+						<ul class="list-unstyled d-inline-flex ms-auto">
+							<li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
+							<li><a href="#">Privacy Policy</a></li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</footer>
+	<!-- End Footer Section -->
     <script>
         document.getElementById('payment_method').addEventListener('change', function () {
             document.getElementById('creditdebit-fields').style.display = this.value === 'creditdebit' ? 'block' : 'none';

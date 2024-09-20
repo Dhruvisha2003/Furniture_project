@@ -140,7 +140,7 @@ def update_cart_quantity(request):
     if cart_item:
         if action == "increase":
             cart_item.quantity += 1
-        elif action == "decrease" and cart_item.quantity > 1:
+        elif action == "decrease":
             cart_item.quantity -= 1
         
         cart_item.total = cart_item.price * cart_item.quantity
@@ -156,7 +156,8 @@ def checkOut(request):
         return redirect('login')
     else:
         if request.method == 'POST':
-            email = request.POST.get('email')
+            print('Received Post request')
+            print(request.POST)
             country = request.POST.get('country')
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
@@ -164,48 +165,57 @@ def checkOut(request):
             street = request.POST.get('street')
             state = request.POST.get('state')
             zip = request.POST.get('zip')
+            email = request.POST.get('email')
+            print(email)
             phone = request.POST.get('phone')
-        
+
+            if not email:
+                messages.error(request, 'Email is required.')
+                return render(request, 'checkout.html', {'user_id': user_id})
+            else:
+            
+                if not register_data.objects.filter(email=email).exists():
+                    messages.error(request, 'User not found in the Register table!!! Please Register or login')
+                    return redirect('checkout')
+                else:
+                    if bill_address.objects.filter(email=email).exists():
+                        messages.error(request, 'This email is already used! Please try with another email.')
+                        return redirect('checkout')
+                    else:
+                        detail = bill_address(
+                            country=country, first_name=first_name, last_name=last_name,
+                            address=address, street=street, state=state, zip=zip, email=email, phone=phone) 
+                        detail.save()
+            
+            
+        if request.method == 'POST':
+            print(request.POST)
             ship_country = request.POST.get('ship_country')
             ship_address = request.POST.get('ship_address')
             ship_street = request.POST.get('ship_street')
             ship_state = request.POST.get('ship_state')
-            ship_zip_code = request.POST.get('ship_zip')
+            ship_zip = request.POST.get('ship_zip')
             ship_phone = request.POST.get('ship_phone')
 
-            if not email:
-                return HttpResponse('Email is required.')
-
-            if not register_data.objects.filter(email=email).exists():
-                messages.error(request, 'User not found in the Register table!!! Please Register or login')
-                return redirect('checkout')
-            
-            if bill_address.objects.filter(email=email).exists() or ship_add.objects.filter (email=email).exists():
-                messages.error(request, 'This email is already used! Please try with another email.')
-                return redirect('checkout')
-
-            detail = bill_address(
-                country=country, first_name=first_name, last_name=last_name,
-                address=address, street=street, state=state, zip=zip, email=email, phone=phone) 
-            detail.save()
-            
-            if ship_country and ship_address and ship_street and ship_state and ship_zip_code:
+            if ship_country and ship_address and ship_street and ship_state and ship_zip:
                 ship_detail = ship_add(
                 ship_country=ship_country, ship_address=ship_address, ship_street=ship_street, 
-                ship_state=ship_state, ship_zip_code=ship_zip_code, ship_phone=ship_phone
+                ship_state=ship_state, ship_zip=ship_zip, ship_phone=ship_phone
                 )
                 ship_detail.save()
-    
+
+            request.session['email'] = email
             return redirect('order_view')
         return render(request, 'checkout.html',{'user_id':user_id})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def order_view(request):
+    user_id = request.session.get('id')
     print('orders')
     alll=addCart.objects.all()
     subtotal = sum(i.total for i in alll)
     total = subtotal
-    return render(request,'order.html',{"alll":alll,"subtotal":subtotal,"total":total})
+    return render(request,'order.html',{"alll":alll,"subtotal":subtotal,"total":total,'user_id':user_id})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def payment_view(request):
@@ -311,6 +321,22 @@ def login_user(request):
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def logout(request):
-    del request.session['id']    
+    del request.session['id'] 
+    addCart.objects.all().delete()   
     print('deleted')
     return redirect('/')        
+
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# def go_to_payment(request):
+#     user_id = request.session.get('id')
+#     if not user_id:
+#         return redirect('login')
+#     alll=addCart.objects.all()
+#     subtotal = sum(i.total for i in alll)
+#     total = subtotal
+#     email = request.session.get('email')
+#     if not bill_address.objects.filter(email=email).exists():
+#         messages.error(request, 'Please fill in your billing details before proceeding to payment.')
+#         return redirect('checkout') 
+#     else:
+#         return render(request,'order.html',{'alll':alll,'subtotal':subtotal,'total':total}) 
