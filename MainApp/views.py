@@ -11,8 +11,8 @@ from .models import About
 from .models import blog_list
 from .models import register_data
 from .models import addCart
-from .models import bill_address
-from .models import ship_add
+from .models import bill_detail
+from .models import ship_detail
 
 # from .models import order
 
@@ -162,7 +162,7 @@ def checkOut(request):
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
             address = request.POST.get('address')
-            street = request.POST.get('street')
+            city = request.POST.get('city')
             state = request.POST.get('state')
             zip = request.POST.get('zip')
             email = request.POST.get('email')
@@ -178,13 +178,13 @@ def checkOut(request):
                     messages.error(request, 'User not found in the Register table!!! Please Register or login')
                     return redirect('checkout')
                 else:
-                    if bill_address.objects.filter(email=email).exists():
+                    if bill_detail.objects.filter(email=email).exists():
                         messages.error(request, 'This email is already used! Please try with another email.')
                         return redirect('checkout')
                     else:
-                        detail = bill_address(
+                        detail = bill_detail(
                             country=country, first_name=first_name, last_name=last_name,
-                            address=address, street=street, state=state, zip=zip, email=email, phone=phone) 
+                            address=address, city=city, state=state, zip=zip, email=email, phone=phone) 
                         detail.save()
             
             
@@ -192,14 +192,14 @@ def checkOut(request):
             print(request.POST)
             ship_country = request.POST.get('ship_country')
             ship_address = request.POST.get('ship_address')
-            ship_street = request.POST.get('ship_street')
+            ship_city = request.POST.get('ship_city')
             ship_state = request.POST.get('ship_state')
             ship_zip = request.POST.get('ship_zip')
             ship_phone = request.POST.get('ship_phone')
 
-            if ship_country and ship_address and ship_street and ship_state and ship_zip:
-                ship_detail = ship_add(
-                ship_country=ship_country, ship_address=ship_address, ship_street=ship_street, 
+            if ship_country and ship_address and ship_city and ship_state and ship_zip:
+                ship_detail = ship_detail(
+                ship_country=ship_country, ship_address=ship_address, ship_city=ship_city, 
                 ship_state=ship_state, ship_zip=ship_zip, ship_phone=ship_phone
                 )
                 ship_detail.save()
@@ -233,7 +233,7 @@ def payment_view(request):
                 expirydate = request.POST.get('expirydate')
 
                 if cardnumber and cardholder and expirydate:
-                    print('hello')
+                    print('Payment Done')
                     addCart.objects.all().delete()
                     return redirect('/thanks/')
                 else:
@@ -245,7 +245,7 @@ def payment_view(request):
                 account_holder = request.POST.get('account_holder')
 
                 if account_number and account_holder:
-                    print('hello')
+                    print('Payment Done')
                     addCart.objects.all().delete()
                     return redirect('/thanks')
                 else:
@@ -256,7 +256,7 @@ def payment_view(request):
                 upi_id = request.POST.get('upi')
 
                 if upi_id:
-                    print('hello')
+                    print('Payment Done')
                     addCart.objects.all().delete()
                     return redirect('/thanks')
                 else:
