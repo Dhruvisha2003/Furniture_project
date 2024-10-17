@@ -112,7 +112,7 @@
 								</td>
 								<td>${{i.price}}</td>
 								<td>
-									<form action="{% url 'update_cart' %}" method="POST">
+									<form action="{% url 'Update_cart' %}" method="POST">
 										{% csrf_token %}
 										<input type="hidden" name="cartid" value="{{ i.id }}">
 										<div class="input-group mb-3 d-flex align-items-center justify-content-center quantity-container"
@@ -131,7 +131,7 @@
 									</form>
 								</td>
 								<td class="total-price" name="total">${{i.total}}</td>
-								<td><a href="/delete_cart?cartid={{i.id}}" class="btn btn-black btn-sm">X</a></td>
+								<td><a href="/Delete_cart?cartid={{i.id}}" class="btn btn-black btn-sm">X</a></td>
 							</tr>
 							{% endfor %}
 

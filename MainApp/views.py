@@ -2,27 +2,11 @@ from django.shortcuts import *
 from django.http import HttpResponse
 from django.contrib import messages
 from django.views.decorators.cache import cache_control
-from .models import Menu
-from .models import products
-from .models import pdetails
-from .models import shop
-from .models import blogs
-from .models import About
-from .models import blog_list
-from .models import register_data
-from .models import addCart
-from .models import bill_detail
-from .models import ship_detail
-
-# from .models import order
-
-# Create your views here.
+from .models import *
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def index(request):
     user_id = request.session.get('id')
-    # if user_id:
-        # print(f'Logged in user ID: {user_id}')
     menus = Menu.objects.all()
     products_list = products.objects.all()
     product_detail = pdetails.objects.all()
@@ -32,40 +16,24 @@ def index(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def shopPage(request):
     user_id = request.session.get('id')
-    # if not user_id:
-    #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
-    #     return redirect('login')
-    # else:
     shop_detail = shop.objects.all()
     return render(request,'shop.html',{'shop_detail':shop_detail,'user_id':user_id})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def aboutus(request):
     user_id = request.session.get('id')
-    # if not user_id:
-    #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
-    #     return redirect('login')
-    # else:
     about_us = About.objects.all()
     return render(request,'about.html',{'about_us':about_us,'user_id':user_id})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Blog(request):
     user_id = request.session.get('id')
-    # if not user_id:
-    #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
-    #     return redirect('login')
-    # else:
     blog_detail = blog_list.objects.all()
     return render(request,'blog.html',{'blog_detail':blog_detail,'user_id':user_id})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Ourservice(request):
     user_id = request.session.get('id')
-    # if not user_id:
-    #     messages.error(request, 'User not found in the Register table!!! Please Register or login')
-    #     return redirect('login')
-    # else:
     services = products.objects.all()
     return render(request,'services.html',{'services':services,'user_id':user_id})
 
@@ -280,9 +248,6 @@ def register_user(request):
         email = request.POST['email']
         password = request.POST['password']
         cpassword = request.POST['cpassword']
-        # if email:
-        #     return HttpResponse('This email is already registered')
-        # else:
         user = register_data(username=username,email=email,password=password,cpassword=cpassword)
         user.save()
         
@@ -325,18 +290,3 @@ def logout(request):
     addCart.objects.all().delete()   
     print('deleted')
     return redirect('/')        
-
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# def go_to_payment(request):
-#     user_id = request.session.get('id')
-#     if not user_id:
-#         return redirect('login')
-#     alll=addCart.objects.all()
-#     subtotal = sum(i.total for i in alll)
-#     total = subtotal
-#     email = request.session.get('email')
-#     if not bill_address.objects.filter(email=email).exists():
-#         messages.error(request, 'Please fill in your billing details before proceeding to payment.')
-#         return redirect('checkout') 
-#     else:
-#         return render(request,'order.html',{'alll':alll,'subtotal':subtotal,'total':total}) 
